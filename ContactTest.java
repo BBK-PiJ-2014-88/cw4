@@ -14,9 +14,19 @@ public class ContactTest{
 	}
 
 	@Test
+	public void testFirstContactReturnCorrectID(){
+		int expected = 1;
+		int output = contactTester1.getId();
+		assertEquals(output,expected);
+	}
+
+	@Test
 	public void testReturnCorrectID(){
-		int expected = 3;
+		int expected = 6; //3 contact instances were created in 1st test, another 3 in this test, so this is the 6th object so will have an id of 6
 		int output = contactTester3.getId();
 		assertEquals(output,expected);
 	}
+
+
+
 }
