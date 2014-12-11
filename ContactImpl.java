@@ -5,9 +5,11 @@ public class ContactImpl implements Contact{
 	private String notes;
 
 	public ContactImpl(){
+		id = uniqueIdGenerator;
+		uniqueIdGenerator++;
 	}
 	public int getId(){
-		return 1;
+		return id;
 	}
 
 	public String getName(){
