@@ -2,13 +2,13 @@ import org.junit.*;
 import static org.junit.Assert.*;
 
 public class ContactTest{
-	private Contact ContactTester1;
-	private Contact ContactTester2;
-	private Contact ContactTester3;
+	private Contact contactTester1;
+	private Contact contactTester2;
+	private Contact contactTester3;
 
 	@Before
 	public void buildUp(){
-		contactTester = new ContactImpl();
+		contactTester1 = new ContactImpl();
 		contactTester2 = new ContactImpl();
 		contactTester3 = new ContactImpl();
 	}
