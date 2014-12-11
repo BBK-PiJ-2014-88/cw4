@@ -27,6 +27,14 @@ public class ContactTest{
 		assertEquals(output,expected);
 	}
 
+	@Test
+	public void testReturnCorrectNotes(){
+		contactTester1.addNotes("Notes for Testing");
+		String expected = "Notes for Testing";
+		String output = contactTester1.getNotes();
+		assertEquals(output,expected);
+	}
+
 
 
 }
