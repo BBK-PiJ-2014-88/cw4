@@ -21,13 +21,6 @@ public class ContactTest{
 	}
 
 	@Test
-	public void testReturnCorrectID(){
-		int expected = 6; //3 contact instances were created in 1st test, another 3 in this test, so this is the 6th object so will have an id of 6
-		int output = contactTester3.getId();
-		assertEquals(expected, output);
-	}
-
-	@Test
 	public void testReturnCorrectNotes(){
 		contactTester1.addNotes("Notes for Testing");
 		String expected = "Notes for Testing";
@@ -35,6 +28,11 @@ public class ContactTest{
 		assertEquals(expected,output);
 	}
 
-
+	@Test
+	public void testReturnCorrectID(){
+		int expected = 9; //3 contact instances were created in 1st test, another 3 in this test, so this is the 6th object so will have an id of 6
+		int output = contactTester3.getId();
+		assertEquals(expected, output);
+	}
 
 }

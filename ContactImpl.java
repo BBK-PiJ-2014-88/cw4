@@ -1,5 +1,5 @@
 public class ContactImpl implements Contact{
-	private static int uniqueIdGenerator = 1;
+	private static int uniqueIdGenerator = 1; //Increases by 1 every time a new contact is made and assigned as the contact unique ID.
 	private int id;
 	private String name;
 	private String notes;
@@ -17,9 +17,10 @@ public class ContactImpl implements Contact{
 	}
 
 	public String getNotes(){
-		return "";
+		return notes;
 	}
 
 	public void addNotes(String note){
+		notes = note;
 	}
 }
