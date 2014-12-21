@@ -23,4 +23,11 @@ public class MeetingTest{
 		Calendar output = meetingTester1.getDate();
 		assertEquals(expected,output);
 	}
+
+	@Test
+	public void testGetDateSecond(){
+		Calendar expected = new GregorianCalendar(2012,05,04);
+		Calendar output = meetingTester2.getDate();
+		assertEquals(expected,output);
+	}
 }
