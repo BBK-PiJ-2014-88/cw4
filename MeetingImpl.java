@@ -1,17 +1,23 @@
 import java.util.Calendar;
 import java.util.Set;
 
-private Set<Contact> contactList;
-private Calendar date;
-
 public class MeetingImpl implements Meeting{
-	public Meeting(int id, Calendar date){
+	private static int uniqueIdGenerator = 1; //Increases by 1 every time a new meeting is made and assigned as the meeting unique ID.
+	private Set<Contact> contactList;
+	private Calendar date;
+	private int meetingId;
+
+	public MeetingImpl(){
+		this.meetingId = uniqueIdGenerator;
+		uniqueIdGenerator++;
 	}
-	int getId(){
-		return 0;
+	public int getId(){
+		return meetingId;
 	}
-	Calendar getDate(){
+	public Calendar getDate(){
+		return null;
 	}
-	Set<Contact> getContacts(){
+	public Set<Contact> getContacts(){
+		return null;
 	}
 }
