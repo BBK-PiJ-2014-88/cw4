@@ -1,11 +1,11 @@
 import java.util.Calendar;
 import java.util.List;
 import java.util.Set;
-import java.util.HashSet;
+import java.util.TreeSet;
 
 public class ContactManagerImpl implements ContactManager{
-	private Set<Contact> contactSet = new HashSet<Contact>();
-	private Set<Meeting> meetingSet = new HashSet<Meeting>();
+	private Set<Contact> contactSet = new TreeSet<Contact>();
+	private Set<Meeting> meetingSet = new TreeSet<Meeting>();
 	public int addFutureMeeting(Set<Contact> contacts, Calendar date){
 		return 0;
 	}
