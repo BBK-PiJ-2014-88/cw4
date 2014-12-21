@@ -1,15 +1,16 @@
 import java.util.Calendar;
 import java.util.Set;
+import java.util.GregorianCalendar;
 
 public class MeetingImpl implements Meeting{
 	private static int uniqueIdGenerator = 1; //Increases by 1 every time a new meeting is made and assigned as the meeting unique ID.
 	private Set<Contact> contactList;
-	private Calendar date;
+	private GregorianCalendar date;
 	private int meetingId;
 
 	public MeetingImpl(Set<Contact> contacts, Calendar date){
 		contactList = contacts;
-		this.date = date;
+		this.date = (GregorianCalendar) date;
 		this.meetingId = uniqueIdGenerator;
 		uniqueIdGenerator++;
 	}
