@@ -5,12 +5,12 @@ import java.util.GregorianCalendar;
 public class MeetingImpl implements Meeting{
 	private static int uniqueIdGenerator = 1; //Increases by 1 every time a new meeting is made and assigned as the meeting unique ID.
 	private Set<Contact> contactList;
-	private GregorianCalendar date;
+	private Calendar date = new GregorianCalendar();
 	private int meetingId;
 
 	public MeetingImpl(Set<Contact> contacts, Calendar date){
 		contactList = contacts;
-		this.date = (GregorianCalendar) date;
+		this.date = date;
 		this.meetingId = uniqueIdGenerator;
 		uniqueIdGenerator++;
 	}
