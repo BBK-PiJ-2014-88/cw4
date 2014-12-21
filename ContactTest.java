@@ -1,6 +1,9 @@
 import org.junit.*;
 import static org.junit.Assert.*;
+import org.junit.runners.MethodSorters;
+import org.junit.FixMethodOrder;
 
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class ContactTest{
 	private Contact contactTester1;
 	private Contact contactTester2;
