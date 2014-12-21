@@ -8,8 +8,7 @@ public class MeetingImpl implements Meeting{
 	private Calendar date = new GregorianCalendar();
 	private int meetingId;
 
-	public MeetingImpl(Set<Contact> contacts, Calendar date){
-		contactList = contacts;
+	public MeetingImpl(Calendar date){  //need to read set of contacts to constructor later
 		this.date = date;
 		this.meetingId = uniqueIdGenerator;
 		uniqueIdGenerator++;

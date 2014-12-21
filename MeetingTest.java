@@ -1,5 +1,7 @@
 import org.junit.*;
 import static org.junit.Assert.*;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 public class MeetingTest{
 	private Meeting meetingTester1;
@@ -8,15 +10,17 @@ public class MeetingTest{
 
 	@Before
 	public void buildUp(){
-		meetingTester1 = new MeetingImpl();
-		meetingTester2 = new MeetingImpl();
-		meetingTester3 = new MeetingImpl();
+		Calendar date = new GregorianCalendar(2014,12,05);
+		Calendar oldDate = new GregorianCalendar(2012,05,04);
+		meetingTester1 = new MeetingImpl(date);
+		meetingTester2 = new MeetingImpl(oldDate);
+		meetingTester3 = new MeetingImpl(date);
 	}
 
 	@Test
-	public void testFirstContactReturnCorrectID(){
-		int expected = 1;
-		int output = meetingTester1.getId();
+	public void testGetDate(){
+		Calendar expected = new GregorianCalendar(2014,12,05);
+		Calendar output = meetingTester1.getDate();
 		assertEquals(expected,output);
 	}
 }
