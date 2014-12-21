@@ -7,7 +7,9 @@ public class MeetingImpl implements Meeting{
 	private Calendar date;
 	private int meetingId;
 
-	public MeetingImpl(){
+	public MeetingImpl(Set<Contact> contacts, Calendar date){
+		contactList = contacts;
+		this.date = date;
 		this.meetingId = uniqueIdGenerator;
 		uniqueIdGenerator++;
 	}
