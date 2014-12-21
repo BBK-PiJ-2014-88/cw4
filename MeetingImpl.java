@@ -4,12 +4,13 @@ import java.util.GregorianCalendar;
 
 public class MeetingImpl implements Meeting{
 	private static int uniqueIdGenerator = 1; //Increases by 1 every time a new meeting is made and assigned as the meeting unique ID.
-	private Set<Contact> contactList;
+	private Set<Contact> contactSet;
 	private Calendar date = new GregorianCalendar();
 	private int meetingId;
 
-	public MeetingImpl(Calendar date){  //need to read set of contacts to constructor later
+	public MeetingImpl(Set<Contact> contacts, Calendar date){
 		this.date = date;
+		this.contactSet = contacts;
 		this.meetingId = uniqueIdGenerator;
 		uniqueIdGenerator++;
 	}
