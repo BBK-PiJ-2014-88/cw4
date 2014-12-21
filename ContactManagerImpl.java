@@ -3,6 +3,8 @@ import java.util.List;
 import java.util.Set;
 
 public class ContactManagerImpl implements ContactManager{
+	private Set<Contact> contactSet;
+	private Set<Meeting> meetingSet;
 	public int addFutureMeeting(Set<Contact> contacts, Calendar date){
 		return 0;
 	}
