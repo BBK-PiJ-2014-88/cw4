@@ -11,9 +11,9 @@ public class ContactTest{
 
 	@Before
 	public void buildUp(){
-		contactTester1 = new ContactImpl();
-		contactTester2 = new ContactImpl();
-		contactTester3 = new ContactImpl();
+		contactTester1 = new ContactImpl("");
+		contactTester2 = new ContactImpl("Steven");
+		contactTester3 = new ContactImpl("");
 	}
 
 	@Test
@@ -36,6 +36,13 @@ public class ContactTest{
 		String expected = "Notes for Testing";
 		String output = contactTester1.getNotes();
 		assertEquals(expected,output);
+	}
+
+	@Test
+	public void testReturnCorrectName(){
+	String expected = "Steven";
+	String output = contactTester2.getName();
+	assertEquals(expected, output);
 	}
 
 
