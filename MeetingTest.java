@@ -3,12 +3,13 @@ import static org.junit.Assert.*;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Set;
+import java.util.HashSet;
 
 public class MeetingTest{
 	private Meeting meetingTester1;
 	private Meeting meetingTester2;
 	private Meeting meetingTester3;
-	private Set<Contact> contactTesterSet;
+	private Set<Contact> contactTesterSet = new HashSet<Contact>();
 
 	@Before
 	public void buildUp(){
