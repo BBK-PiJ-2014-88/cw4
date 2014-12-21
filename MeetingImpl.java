@@ -22,6 +22,6 @@ public class MeetingImpl implements Meeting{
 		return date;
 	}
 	public Set<Contact> getContacts(){
-		return null;
+		return contactSet;
 	}
 }
