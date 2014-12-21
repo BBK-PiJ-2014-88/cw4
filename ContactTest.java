@@ -40,9 +40,9 @@ public class ContactTest{
 
 	@Test
 	public void testReturnCorrectName(){
-	String expected = "Steven";
-	String output = contactTester2.getName();
-	assertEquals(expected, output);
+		String expected = "Steven";
+		String output = contactTester2.getName();
+		assertEquals(expected, output);
 	}
 
 
