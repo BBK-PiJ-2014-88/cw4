@@ -6,8 +6,10 @@ import java.util.TreeSet;
 public class ContactManagerImpl implements ContactManager{
 	private Set<Contact> contactSet = new TreeSet<Contact>();
 	private Set<Meeting> meetingSet = new TreeSet<Meeting>();
+
 	public int addFutureMeeting(Set<Contact> contacts, Calendar date){
-		return 0;
+		Meeting newFutureMeeting = new MeetingImpl(contacts, date);
+		return newFutureMeeting.getId();
 	}
 	public PastMeeting getPastMeeting(int id){
 		return null;
