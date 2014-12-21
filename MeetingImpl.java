@@ -17,7 +17,7 @@ public class MeetingImpl implements Meeting{
 		return meetingId;
 	}
 	public Calendar getDate(){
-		return null;
+		return date;
 	}
 	public Set<Contact> getContacts(){
 		return null;
