@@ -42,8 +42,14 @@ public class ContactManagerTest{
 	}
 
 	@Test (expected = NullPointerException.class)
-	public void testAddNewContactWithNullParaMeter(){
+	public void testAddNewContactWithNullFirstParaMeter(){
 		testerContact.addNotes("These are tester notes for addNewContactMethod");
 		contactManagerTester1.addNewContact(null, "These are tester notes for addNewContactMethod");
+	}
+
+	@Test (expected = NullPointerException.class)
+	public void testAddNewContactWithNullSecondParaMeter(){
+		testerContact.addNotes("These are tester notes for addNewContactMethod");
+		contactManagerTester1.addNewContact("Simon", null);
 	}
 }
