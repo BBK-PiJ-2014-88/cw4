@@ -34,6 +34,7 @@ public class ContactManagerImpl implements ContactManager{
 	public void addMeetingNotes(int id, String text){
 	}
 	public void addNewContact(String name, String notes){
+
 	}
 	public Set<Contact> getContacts(int... ids){
 		return null;

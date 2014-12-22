@@ -12,6 +12,7 @@ public class ContactManagerTest{
 	private Set<Contact> contacts = new TreeSet<Contact>();
 	private Set<Meeting> meetings = new TreeSet<Meeting>();
 	Calendar randomDate = new GregorianCalendar(2014,12,10);
+	Contact testerContact = new Contact("Simon");
 
 	@Before
 	public void buildUp(){
@@ -25,6 +26,15 @@ public class ContactManagerTest{
 
 	@Test
 	public void testAddFutureMeeting(){
+		int expected = 1;
+		int output = contactManagerTester1.addFutureMeeting(contacts,randomDate);
+		assertEquals(expected,output);
+	}
+
+	@Test
+	public void testAddNewContact(){
+		testerContact.addNotes("These are notes for testing the addNewContact method");
+		contactManagerTester1.addNewContact(testerContact);
 		int expected = 1;
 		int output = contactManagerTester1.addFutureMeeting(contacts,randomDate);
 		assertEquals(expected,output);
