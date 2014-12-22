@@ -45,4 +45,7 @@ public class ContactManagerImpl implements ContactManager{
 	}
 	public void flush(){
 	}
+	public boolean containsContact(Contact con){  //used this method for junit testing
+		return this.contactSet.contains(con);
+	}
 }
