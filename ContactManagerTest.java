@@ -40,4 +40,10 @@ public class ContactManagerTest{
 		boolean output = contactManagerTester1.containsContact(testerContact);
 		assertEquals(expected,output);
 	}
+
+	@Test (expected = NullPointerException.class)
+	public void testAddNewContactWithNullParaMeter(){
+		testerContact.addNotes("These are tester notes for addNewContactMethod");
+		contactManagerTester1.addNewContact(null, "These are tester notes for addNewContactMethod");
+	}
 }
