@@ -53,6 +53,9 @@ public class ContactManagerImpl implements ContactManager{
 		return newSet;
 	}
 	public Set<Contact> getContacts(String name){
+		if (name == null){
+			throw new NullPointerException("name must not be null");
+		}
 		Set<Contact> contactsWithStringInName = new HashSet<Contact>();
 		for (ContactImpl contact : this.contactSet){
 			if (contact.getName().indexOf(name) != -1){
