@@ -35,6 +35,14 @@ public class ContactManagerImpl implements ContactManager{
 	public void addMeetingNotes(int id, String text){
 	}
 	public void addNewContact(String name, String notes){
+		if (name == null || notes == null){
+			throw new NullPointerException("Cannot have null name or null notes");
+		}
+		else{
+			Contact newContact = new ContactImpl(name);
+			newContact.addNotes(notes);
+			this.contactSet.add(newContact);
+		}
 
 	}
 	public Set<Contact> getContacts(int... ids){
