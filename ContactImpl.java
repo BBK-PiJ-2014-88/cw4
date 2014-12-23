@@ -30,6 +30,12 @@ public class ContactImpl implements Contact{
 
 	@Override
 	public boolean equals(Object o){
+		if (o == null){
+			return false;
+		}
+		if (this.getClass() != o.getClass()){
+			return false;
+		}
 		ContactImpl cont = (ContactImpl) o;
 		if (this.getId() == cont.getId() && this.getName().equals(cont.getName()) && this.getNotes().equals(cont.getNotes())){
 			return true;
@@ -37,5 +43,12 @@ public class ContactImpl implements Contact{
 		else{
 			return false;
 		}
+	}
+
+	@Override
+	public int hashCode(){
+		String hashCodeString = this.getId() + this.getName() + this.getNotes();
+		int newHashCode = hashCodeString.hashCode();
+		return newHashCode;
 	}
 }
