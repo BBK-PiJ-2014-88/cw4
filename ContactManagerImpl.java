@@ -7,7 +7,7 @@ import java.util.Comparator;
 
 public class ContactManagerImpl implements ContactManager{
 	private Set<ContactImpl> contactSet = new HashSet<ContactImpl>();
-	private Set<MeetingImpl> meetingSet = new TreeSet<MeetingImpl>(Comparator<MeetingImpl> MeetingComparator);
+	private Set<MeetingImpl> meetingSet = new TreeSet<MeetingImpl>(new MeetingComparator());
 
 	private int uniqueContactIdGenerator = 1;
 	private int uniqueMeetingIdGenerator = 1;
@@ -16,7 +16,7 @@ public class ContactManagerImpl implements ContactManager{
 		/*Meeting newFutureMeeting = new MeetingImpl(contacts, date, uniqueMeetingIdGenerator);
 		uniqueIdGenerator++;
 		return newFutureMeeting.getId(); */
-
+	return 1;
 
 	}
 	public PastMeeting getPastMeeting(int id){
