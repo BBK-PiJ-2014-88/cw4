@@ -49,10 +49,12 @@ public class ContactManagerImpl implements ContactManager{
 
 	}
 	public Set<Contact> getContacts(int... ids){
-		return null;
+		Set<Contact> newSet = new HashSet<Contact>();
+		return newSet;
 	}
 	public Set<Contact> getContacts(String name){
-		return null;
+		Set<Contact> newSet = new HashSet<Contact>();
+		return newSet;
 	}
 	public void flush(){
 	}

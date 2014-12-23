@@ -40,6 +40,23 @@ public class ContactManagerTest{
 
 	@Test (expected = NullPointerException.class)
 	public void testGetContactsNullParameter(){
-		contactManagerTester1.getContacts(null);
+		String nullString = null;
+		contactManagerTester1.getContacts(nullString);
+	}
+
+	@Test
+	public void testGetContactsNormal(){
+		contactManagerTester1.addNewContact("John", "John notes");
+		contactManagerTester1.addNewContact("Steven", "Steven notes");
+		contactManagerTester1.addNewContact("Stewart", "Stewart notes");
+		contactManagerTester1.addNewContact("Roger Steward", "Roger notes"); //contains 'ste' in surname so should be in expected result
+		contactManagerTester1.addNewContact("Peter Salazar", "More notes");
+		Set<Contact> expectedContactSet = new HashSet<Contact>();
+		expectedContactSet.add(new ContactImpl("Steven", "Steven notes", 2));
+		expectedContactSet.add(new ContactImpl("Stewart", "Stewart notes", 3));
+		expectedContactSet.add(new ContactImpl("Roger Steward", "Roger notes", 4));
+		Set<Contact> expected = expectedContactSet;
+		Set<Contact> output = contactManagerTester1.getContacts(new String("Ste"));
+		assertEquals(expected,output);
 	}
 }
