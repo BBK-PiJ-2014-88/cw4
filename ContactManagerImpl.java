@@ -3,18 +3,21 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.HashSet;
+import java.util.Comparator;
 
 public class ContactManagerImpl implements ContactManager{
 	private Set<ContactImpl> contactSet = new HashSet<ContactImpl>();
-	private Set<MeetingImpl> meetingSet = new TreeSet<MeetingImpl>();
+	private Set<MeetingImpl> meetingSet = new TreeSet<MeetingImpl>(Comparator<MeetingImpl> MeetingComparator);
 
 	private int uniqueContactIdGenerator = 1;
 	private int uniqueMeetingIdGenerator = 1;
 
 	public int addFutureMeeting(Set<Contact> contacts, Calendar date){
-		/*Meeting newFutureMeeting = new MeetingImpl(contacts, date);
+		/*Meeting newFutureMeeting = new MeetingImpl(contacts, date, uniqueMeetingIdGenerator);
+		uniqueIdGenerator++;
 		return newFutureMeeting.getId(); */
-		return 1;
+
+
 	}
 	public PastMeeting getPastMeeting(int id){
 		return null;
@@ -82,5 +85,20 @@ public class ContactManagerImpl implements ContactManager{
 
 	public boolean containsContact(ContactImpl con){  //used this method for junit testing
 		return this.contactSet.contains(con);
+	}
+
+	private class MeetingComparator implements Comparator<MeetingImpl>{
+		@Override
+		public int compare(MeetingImpl meeting1, MeetingImpl meeting2){
+			if (meeting1.getDate().before(meeting2.getDate())){
+				return -1;
+			}
+			else if (meeting1.getDate().after(meeting2.getDate())){
+				return 1;
+			}
+			else{
+				return 0;
+			}
+		}
 	}
 }
