@@ -53,8 +53,13 @@ public class ContactManagerImpl implements ContactManager{
 		return newSet;
 	}
 	public Set<Contact> getContacts(String name){
-		Set<Contact> newSet = new HashSet<Contact>();
-		return newSet;
+		Set<Contact> contactsWithStringInName = new HashSet<Contact>();
+		for (ContactImpl contact : this.contactSet){
+			if (contact.getName().indexOf(name) != -1){
+				contactsWithStringInName.add(contact);
+			}
+		}
+		return contactsWithStringInName;
 	}
 	public void flush(){
 	}
