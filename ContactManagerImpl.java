@@ -57,6 +57,6 @@ public class ContactManagerImpl implements ContactManager{
 	public void flush(){
 	}
 	public boolean containsContact(ContactImpl con){  //used this method for junit testing
-		return this.contactSet.contains(new ContactImpl(con.getName(), con.getNotes(), con.getId()));
+		return this.contactSet.contains(con);
 	}
 }
