@@ -1,19 +1,16 @@
 public class ContactImpl implements Contact{
-	private static int uniqueIdGenerator = 1; //Increases by 1 every time a new contact is made and assigned as the contact unique ID.
 	private int id;
 	private String name;
 	private String notes;
 
-	public ContactImpl(String name){
+	public ContactImpl(String name, int id){
+		this.id = id;
 		this.name = name;
-		this.id = uniqueIdGenerator;
-		uniqueIdGenerator++;
 	}
-	public ContactImpl(String name, String notes){
+	public ContactImpl(String name, String notes, int id){
 		this.name = name;
 		this.notes = notes;
-		this.id = uniqueIdGenerator;
-		uniqueIdGenerator++;
+		this.id = id;
 	}
 	public int getId(){
 		return id;
