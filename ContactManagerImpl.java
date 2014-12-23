@@ -8,6 +8,9 @@ public class ContactManagerImpl implements ContactManager{
 	private Set<Contact> contactSet = new HashSet<Contact>();
 	private Set<Meeting> meetingSet = new TreeSet<Meeting>();
 
+	private int uniqueContactIdGenerator = 1;
+	private int uniqueMeetingIdGenerator = 1;
+
 	public int addFutureMeeting(Set<Contact> contacts, Calendar date){
 		Meeting newFutureMeeting = new MeetingImpl(contacts, date);
 		return newFutureMeeting.getId();
