@@ -105,7 +105,7 @@ public class ContactManagerTest{
 		contactManagerTester1.addNewContact("John", "John notes");
 		contactManagerTester1.addNewContact("Steven", "Steven notes");
 		contactManagerTester1.addNewContact("Stewart", "Stewart notes");
-		contactManagerTester1.getContacts();
+		contactManagerTester1.getContacts(0);
 	}
 
 }

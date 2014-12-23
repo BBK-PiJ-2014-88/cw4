@@ -49,9 +49,22 @@ public class ContactManagerImpl implements ContactManager{
 
 	}
 	public Set<Contact> getContacts(int... ids){
-		Set<Contact> newSet = new HashSet<Contact>();
-		return newSet;
+		Set<Contact> contactsWithInputtedIds = new HashSet<Contact>();
+		for (int idNum: ids){
+			boolean contactFound = false;
+			for (ContactImpl contact : contactSet){
+				if (contact.getId() == idNum){
+					contactsWithInputtedIds.add(contact);
+					contactFound = true;
+				}
+			}
+			if (!contactFound){
+				throw new IllegalArgumentException("Id " + idNum + " does not correspond to any real Contact");
+			}
+		}
+		return contactsWithInputtedIds;
 	}
+
 	public Set<Contact> getContacts(String name){
 		if (name == null){
 			throw new NullPointerException("name must not be null");
@@ -66,6 +79,7 @@ public class ContactManagerImpl implements ContactManager{
 	}
 	public void flush(){
 	}
+
 	public boolean containsContact(ContactImpl con){  //used this method for junit testing
 		return this.contactSet.contains(con);
 	}
