@@ -59,4 +59,17 @@ public class ContactManagerTest{
 		Set<Contact> output = contactManagerTester1.getContacts(new String("Ste"));
 		assertEquals(expected,output);
 	}
+
+	@Test
+	public void testGetContactsNoneContainString(){
+		contactManagerTester1.addNewContact("John", "John notes");
+		contactManagerTester1.addNewContact("Steven", "Steven notes");
+		contactManagerTester1.addNewContact("Stewart", "Stewart notes");
+		contactManagerTester1.addNewContact("Roger Steward", "Roger notes"); //contains 'ste' in surname so should be in expected result
+		contactManagerTester1.addNewContact("Peter Salazar", "More notes");
+		Set<Contact> expectedContactSet = new HashSet<Contact>();
+		Set<Contact> expected = expectedContactSet;
+		Set<Contact> output = contactManagerTester1.getContacts(new String("zzz"));
+		assertEquals(expected,output);
+	}
 }
