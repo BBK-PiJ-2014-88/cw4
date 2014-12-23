@@ -108,4 +108,58 @@ public class ContactManagerTest{
 		contactManagerTester1.getContacts(0);
 	}
 
+	// addFutureMeeting tests here
+
+	@Test (expected = IllegalArgumentException.class) //adding Contact Set containing unknown contact to Contact Manager
+	public void testAddFutureMeetingWithUnknownContact(){
+		contactManagerTester1.addNewContact("John", "John notes");   //Added 3 contacts. Will try to add a meeting with contact not added to
+		contactManagerTester1.addNewContact("Steven", "Steven notes"); //the Contact Manager.
+		contactManagerTester1.addNewContact("Stewart", "Stewart notes");
+		Set<Contact> contactSetWithUnknown = new HashSet<Contact>();
+		contactSetWithUnknown.add(new ContactImpl("John", "John notes", 1));
+		contactSetWithUnknown.add(new ContactImpl("Simon", "Simon is not in contact Manager's known contacts", 2));
+		Calendar futureDate = new GregorianCalendar(2016,12,12);
+		contactManagerTester1.addFutureMeeting(contactSetWithUnknown, futureDate);
+	}
+
+		@Test (expected = IllegalArgumentException.class) //Adding time in the past as date for future meeting
+		public void testAddFutureMeetingWithPastDate(){
+			contactManagerTester1.addNewContact("John", "John notes");
+			contactManagerTester1.addNewContact("Steven", "Steven notes");
+			Set<Contact> contactSetWithUnknown = new HashSet<Contact>();
+			contactSetWithUnknown.add(new ContactImpl("John", "John notes", 1));
+			contactSetWithUnknown.add(new ContactImpl("Steven", "Steven notes", 2));
+			Calendar pastDate = new GregorianCalendar(2008,12,12);
+			contactManagerTester1.addFutureMeeting(contactSetWithUnknown, pastDate);
+	}
+
+		@Test  //Adding future meeting with correct Parameters. Expect meeting id
+		public void testAddFutureMeetingWithCorrectParameter(){
+			contactManagerTester1.addNewContact("John", "John notes");
+			contactManagerTester1.addNewContact("Steven", "Steven notes");
+			Set<Contact> contactSetWithUnknown = new HashSet<Contact>();
+			contactSetWithUnknown.add(new ContactImpl("John", "John notes", 1));
+			contactSetWithUnknown.add(new ContactImpl("Steven", "Steven notes", 2));
+			Calendar futureDate = new GregorianCalendar(2015,12,12);
+			int expected = 1;
+			int output = contactManagerTester1.addFutureMeeting(contactSetWithUnknown, futureDate);
+			assertEquals(expected,output);
+	}
+
+		@Test  //Adding multiple future meeting with correct Parameters. Expect meeting id
+		public void testAddMultipleFutureMeetingWithCorrectParameter(){
+			contactManagerTester1.addNewContact("John", "John notes");
+			contactManagerTester1.addNewContact("Steven", "Steven notes");
+			Set<Contact> contactSetWithUnknown = new HashSet<Contact>();
+			contactSetWithUnknown.add(new ContactImpl("John", "John notes", 1));
+			contactSetWithUnknown.add(new ContactImpl("Steven", "Steven notes", 2));
+			Calendar futureDate = new GregorianCalendar(2015,12,12);
+			contactManagerTester1.addFutureMeeting(contactSetWithUnknown, futureDate); //meeting 1
+			contactManagerTester1.addFutureMeeting(contactSetWithUnknown, futureDate); //meeting 2
+			int expected = 3;
+			int output = contactManagerTester1.addFutureMeeting(contactSetWithUnknown, futureDate);
+			assertEquals(expected,output);
+	}
+
+
 }
