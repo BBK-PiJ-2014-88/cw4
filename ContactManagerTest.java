@@ -18,10 +18,6 @@ public class ContactManagerTest{
 	public void buildUp(){
 		contactManagerTester1 = new ContactManagerImpl();
 		contactManagerTester2 = new ContactManagerImpl();
-		/*contacts.add(new ContactImpl("Smith"));
-		contacts.add(new ContactImpl("John"));
-		contacts.add(new ContactImpl("Steven")); */
-
 	}
 
 	@Test
@@ -40,5 +36,10 @@ public class ContactManagerTest{
 	@Test (expected = NullPointerException.class)
 	public void testAddNewContactWithNullSecondParaMeter(){
 		contactManagerTester1.addNewContact("Simon", null);
+	}
+
+	@Test (expected = NullPointerException.class)
+	public void testGetContactsNullParameter(){
+		contactManagerTester1.getContacts(null);
 	}
 }
