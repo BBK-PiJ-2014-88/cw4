@@ -15,11 +15,11 @@ public class MeetingTest{
 	public void buildUp(){
 		Calendar date = new GregorianCalendar(2014,12,05);
 		Calendar oldDate = new GregorianCalendar(2012,05,04);
-		contactTesterSet.add(new ContactImpl("John"));
-		contactTesterSet.add(new ContactImpl("Freddy"));
-		contactTesterSet.add(new ContactImpl("Xavier"));
-		meetingTester1 = new MeetingImpl(contactTesterSet,date);
-		meetingTester2 = new MeetingImpl(contactTesterSet,oldDate);
+		contactTesterSet.add(new ContactImpl("John",1));
+		contactTesterSet.add(new ContactImpl("Freddy",2));
+		contactTesterSet.add(new ContactImpl("Xavier",3));
+		meetingTester1 = new MeetingImpl(contactTesterSet,date,1);
+		meetingTester2 = new MeetingImpl(contactTesterSet,oldDate,2);
 	}
 
 	@Test
