@@ -1,9 +1,6 @@
 import org.junit.*;
 import static org.junit.Assert.*;
-import org.junit.runners.MethodSorters;
-import org.junit.FixMethodOrder;
 
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class ContactTest{
 	private Contact contactTester1;
 	private Contact contactTester2;
@@ -11,9 +8,9 @@ public class ContactTest{
 
 	@Before
 	public void buildUp(){
-		contactTester1 = new ContactImpl("");
-		contactTester2 = new ContactImpl("Steven");
-		contactTester3 = new ContactImpl("");
+		contactTester1 = new ContactImpl("",1);
+		contactTester2 = new ContactImpl("Steven",2);
+		contactTester3 = new ContactImpl("",3);
 	}
 
 	@Test
@@ -25,7 +22,7 @@ public class ContactTest{
 
 	@Test
 	public void testReturnCorrectID(){
-		int expected = 6; //3 contact instances were created in 1st test, another 3 in this test, so this is the 6th object so will have an id of 6
+		int expected = 3;
 		int output = contactTester3.getId();
 		assertEquals(expected, output);
 	}
