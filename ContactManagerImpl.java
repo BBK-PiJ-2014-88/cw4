@@ -39,9 +39,7 @@ public class ContactManagerImpl implements ContactManager{
 			throw new NullPointerException("Cannot have null name or null notes");
 		}
 		else{
-			Contact newContact = new ContactImpl(name);
-			newContact.addNotes(notes);
-			this.contactSet.add(newContact);
+			this.contactSet.add(new ContactImpl(name, notes));
 		}
 
 	}

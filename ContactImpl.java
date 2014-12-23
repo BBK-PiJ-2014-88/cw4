@@ -9,6 +9,12 @@ public class ContactImpl implements Contact{
 		this.id = uniqueIdGenerator;
 		uniqueIdGenerator++;
 	}
+	public ContactImpl(String name, String notes){
+		this.name = name;
+		this.notes = notes;
+		this.id = uniqueIdGenerator;
+		uniqueIdGenerator++;
+	}
 	public int getId(){
 		return id;
 	}
