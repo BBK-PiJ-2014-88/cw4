@@ -72,4 +72,40 @@ public class ContactManagerTest{
 		Set<Contact> output = contactManagerTester1.getContacts(new String("zzz"));
 		assertEquals(expected,output);
 	}
+
+	@Test
+	public void testGetContactsWithID(){
+		contactManagerTester1.addNewContact("John", "John notes");
+		contactManagerTester1.addNewContact("Steven", "Steven notes");
+		contactManagerTester1.addNewContact("Stewart", "Stewart notes");  //id = 3
+		contactManagerTester1.addNewContact("Roger Steward", "Roger notes"); //id = 4
+		contactManagerTester1.addNewContact("Peter Salazar", "More notes");
+		Set<Contact> expectedContactSet = new HashSet<Contact>();
+		expectedContactSet.add(new ContactImpl("Stewart", "Stewart notes", 3));
+		expectedContactSet.add(new ContactImpl("Roger Steward", "Roger notes", 4));
+		Set<Contact> expected = expectedContactSet;
+		Set<Contact> output = contactManagerTester1.getContacts(3,4);
+		assertEquals(expected,output);
+	}
+	@Test (expected = IllegalArgumentException.class)
+	public void testGetContactsWithIDIllegalArgumentException(){
+		contactManagerTester1.addNewContact("John", "John notes");
+		contactManagerTester1.addNewContact("Steven", "Steven notes");
+		contactManagerTester1.addNewContact("Stewart", "Stewart notes");  //id = 3
+		contactManagerTester1.addNewContact("Roger Steward", "Roger notes"); //id = 4
+		contactManagerTester1.addNewContact("Peter Salazar", "More notes");
+		Set<Contact> expectedContactSet = new HashSet<Contact>();
+		expectedContactSet.add(new ContactImpl("Stewart", "Stewart notes", 3));
+		expectedContactSet.add(new ContactImpl("Roger Steward", "Roger notes", 4));
+		contactManagerTester1.getContacts(3,4,7);  //should throw Exception as there is no contact with ID of 7
+	}
+
+	@Test (expected = IllegalArgumentException.class)
+	public void testGetContactWithIDnoParameters(){
+		contactManagerTester1.addNewContact("John", "John notes");
+		contactManagerTester1.addNewContact("Steven", "Steven notes");
+		contactManagerTester1.addNewContact("Stewart", "Stewart notes");
+		contactManagerTester1.getContacts();
+	}
+
 }
