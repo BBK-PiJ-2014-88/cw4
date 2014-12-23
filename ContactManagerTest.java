@@ -24,18 +24,11 @@ public class ContactManagerTest{
 
 	}
 
-	/*@Test
-	public void testAddFutureMeeting(){
-		int expected = 1;
-		int output = contactManagerTester1.addFutureMeeting(contacts,randomDate);
-		assertEquals(expected,output);
-	}*/
-
 	@Test
 	public void testAddNewContact(){
 		contactManagerTester1.addNewContact("Simon", "These are tester notes");
 		boolean expected = true;
-		boolean output = contactManagerTester1.containsContact(new ContactImpl("Simon", "These are tester notes"));
+		boolean output = contactManagerTester1.containsContact(new ContactImpl("Simon", "These are tester notes", 1));
 		assertEquals(expected,output);
 	}
 

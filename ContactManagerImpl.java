@@ -5,15 +5,16 @@ import java.util.TreeSet;
 import java.util.HashSet;
 
 public class ContactManagerImpl implements ContactManager{
-	private Set<Contact> contactSet = new HashSet<Contact>();
-	private Set<Meeting> meetingSet = new TreeSet<Meeting>();
+	private Set<ContactImpl> contactSet = new HashSet<ContactImpl>();
+	private Set<MeetingImpl> meetingSet = new TreeSet<MeetingImpl>();
 
 	private int uniqueContactIdGenerator = 1;
 	private int uniqueMeetingIdGenerator = 1;
 
 	public int addFutureMeeting(Set<Contact> contacts, Calendar date){
-		Meeting newFutureMeeting = new MeetingImpl(contacts, date);
-		return newFutureMeeting.getId();
+		/*Meeting newFutureMeeting = new MeetingImpl(contacts, date);
+		return newFutureMeeting.getId(); */
+		return 1;
 	}
 	public PastMeeting getPastMeeting(int id){
 		return null;
@@ -42,7 +43,8 @@ public class ContactManagerImpl implements ContactManager{
 			throw new NullPointerException("Cannot have null name or null notes");
 		}
 		else{
-			this.contactSet.add(new ContactImpl(name, notes));
+			this.contactSet.add(new ContactImpl(name, notes, uniqueContactIdGenerator));
+			uniqueContactIdGenerator++;
 		}
 
 	}
@@ -54,7 +56,7 @@ public class ContactManagerImpl implements ContactManager{
 	}
 	public void flush(){
 	}
-	public boolean containsContact(Contact con){  //used this method for junit testing
-		return this.contactSet.contains(con);
+	public boolean containsContact(ContactImpl con){  //used this method for junit testing
+		return this.contactSet.contains(new ContactImpl(con.getName(), con.getNotes(), con.getId()));
 	}
 }
