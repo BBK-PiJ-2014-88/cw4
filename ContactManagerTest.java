@@ -13,7 +13,6 @@ public class ContactManagerTest{
 	private Set<Contact> contacts = new HashSet<Contact>();
 	private Set<Meeting> meetings = new TreeSet<Meeting>();
 	Calendar randomDate = new GregorianCalendar(2014,12,10);
-	Contact testerContact = new ContactImpl("Simon");   //for testing addContact method
 
 	@Before
 	public void buildUp(){
@@ -34,10 +33,9 @@ public class ContactManagerTest{
 
 	@Test
 	public void testAddNewContact(){
-		testerContact.addNotes("These are tester notes for addNewContactMethod");
-		contactManagerTester1.addNewContact("Simon", "These are tester notes for addNewContactMethod");
+		contactManagerTester1.addNewContact("Simon", "These are tester notes");
 		boolean expected = true;
-		boolean output = contactManagerTester1.containsContact(testerContact);
+		boolean output = contactManagerTester1.containsContact(new ContactImpl("Simon", "These are tester notes"));
 		assertEquals(expected,output);
 	}
 
