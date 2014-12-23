@@ -7,7 +7,7 @@ public class PastMeetingImpl extends MeetingImpl implements PastMeeting{
 		super(contacts, date, id);
 	}
 	public String getNotes(){
-		return "";
+		return notes;
 	}
 
 }
