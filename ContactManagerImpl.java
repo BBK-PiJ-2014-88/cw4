@@ -4,6 +4,7 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.HashSet;
 import java.util.Comparator;
+import java.util.GregorianCalendar;
 
 public class ContactManagerImpl implements ContactManager{
 	private Set<ContactImpl> contactSet = new HashSet<ContactImpl>();
@@ -13,12 +14,35 @@ public class ContactManagerImpl implements ContactManager{
 	private int uniqueMeetingIdGenerator = 1;
 
 	public int addFutureMeeting(Set<Contact> contacts, Calendar date){
-		/*Meeting newFutureMeeting = new MeetingImpl(contacts, date, uniqueMeetingIdGenerator);
-		uniqueIdGenerator++;
-		return newFutureMeeting.getId(); */
-	return 1;
-
+		if (! doesContactExist(contacts)){
+			throw new IllegalArgumentException("Contact not known");
+		}
+		if (new GregorianCalendar().getInstance().after(date)){
+			throw new IllegalArgumentException("Date must be in future");
+		}
+		else{
+			Meeting newFutureMeeting = new FutureMeetingImpl(contacts, date, uniqueMeetingIdGenerator);
+			uniqueMeetingIdGenerator++;
+			return newFutureMeeting.getId();
+		}
 	}
+
+	public boolean doesContactExist(Set<Contact> contacts){  //checks if contacts are unknown/non-existent
+		for (Contact contact1: contacts){
+			boolean contactFound = false;
+			for (ContactImpl contact2 : contactSet){
+				if(((ContactImpl)contact1).equals(contact2)){
+					contactFound = true;
+					break;
+				}
+			}
+			if(!contactFound){
+				return false;
+			}
+		}
+		return true;
+	}
+
 	public PastMeeting getPastMeeting(int id){
 		return null;
 	}
