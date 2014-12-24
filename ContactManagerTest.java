@@ -162,6 +162,67 @@ public class ContactManagerTest{
 			int output = contactManagerTester1.addFutureMeeting(contactSetWithUnknown, futureDate);
 			assertEquals(expected,output);
 	}
+
+	//addNewPastMeeting tests start here
+
+	@Test (expected = IllegalArgumentException.class) //adding ContactSet containing unknown contact to Contact Manager
+	public void testAddPastMeetingWithUnknownContact(){
+		contactManagerTester1.addNewContact("John", "John notes");   //Added 3 contacts. Will try to add a meeting with contact not added to
+		contactManagerTester1.addNewContact("Steven", "Steven notes"); //the Contact Manager.
+		contactManagerTester1.addNewContact("Stewart", "Stewart notes");
+		Set<Contact> contactSetWithUnknown = new HashSet<Contact>();
+		contactSetWithUnknown.add(new ContactImpl("John", "John notes", 1));
+		contactSetWithUnknown.add(new ContactImpl("Simon", "Simon is not in contact Manager's known contacts", 2));
+		Calendar pastDate = new GregorianCalendar(2008,12,12);
+		contactManagerTester1.addNewPastMeeting(contactSetWithUnknown, pastDate, "notes");
+	}
+
+	@Test (expected = IllegalArgumentException.class) //adding empty ContactSet as parameter
+	public void testAddPastMeetingWithEmptyContactSet(){
+		contactManagerTester1.addNewContact("John", "John notes");
+		Set<Contact> contactSetEmpty = new HashSet<Contact>();
+		Calendar pastDate = new GregorianCalendar(2008,12,12);
+		contactManagerTester1.addNewPastMeeting(contactSetEmpty, pastDate, "notes");
+	}
+	@Test (expected = NullPointerException.class) //one of the arguments is null
+	public void testAddPastMeetingWithNullContacts(){
+		contactManagerTester1.addNewContact("John", "John notes");
+		Set<Contact> contactSetNull = null;
+		Calendar pastDate = new GregorianCalendar(2008,12,12);
+		contactManagerTester1.addNewPastMeeting(contactSetNull, pastDate, "notes");
+	}
+	@Test (expected = NullPointerException.class) //one of the arguments is null
+	public void testAddPastMeetingWithNullDate(){
+		contactManagerTester1.addNewContact("John", "John notes");
+		Set<Contact> contactSet = new HashSet<Contact>();
+		contactSet.add(new ContactImpl("John", "John notes", 1));
+		Calendar pastDate = null;
+		contactManagerTester1.addNewPastMeeting(contactSet, pastDate, "notes");
+	}
+	@Test (expected = NullPointerException.class) //one of the arguments is null
+	public void testAddPastMeetingWithNullNotes(){
+		contactManagerTester1.addNewContact("John", "John notes");
+		Set<Contact> contactSet = new HashSet<Contact>();
+		contactSet.add(new ContactImpl("John", "John notes", 1));
+		Calendar pastDate = new GregorianCalendar(2008,12,12);
+		contactManagerTester1.addNewPastMeeting(contactSet, pastDate, null);
+	}
+	/*
+	@Test  //adding PastMeeting Correctly
+	public void testAddPastMeeting(){
+		contactManagerTester1.addNewContact("John", "John notes");
+		contactManagerTester1.addNewContact("Steven", "Steven notes");
+		contactManagerTester1.addNewContact("Stewart", "Stewart notes");
+		Set<Contact> contactSet = new HashSet<Contact>();
+		contactSet.add(new ContactImpl("John", "John notes", 1));
+		contactSet.add(new ContactImpl("Steven", "Steven notes", 2));
+		contactSet.add(new ContactImpl("Stewart", "Stewart notes", 3));
+		Calendar pastDate = new GregorianCalendar(2008,12,12);
+		contactManagerTester1.addNewPastMeeting(contactSet, pastDate, "notes");
+		//use getPastMeeting method to check its been added correctly
+	}*/
+
+
 /*
 	//getPastMeeting tests start here
 
