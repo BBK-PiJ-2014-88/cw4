@@ -21,27 +21,22 @@ public class ContactManagerImpl implements ContactManager{
 			throw new IllegalArgumentException("Date must be in future");
 		}
 		else{
-			Meeting newFutureMeeting = new FutureMeetingImpl(contacts, date, uniqueMeetingIdGenerator);
+			MeetingImpl newFutureMeeting = new FutureMeetingImpl(contacts, date, uniqueMeetingIdGenerator);
 			uniqueMeetingIdGenerator++;
+			meetingSet.add(newFutureMeeting);
 			return newFutureMeeting.getId();
 		}
 	}
 
 	public boolean doesContactExist(Set<Contact> contacts){  //checks if contacts are unknown/non-existent
-		for (Contact contact1: contacts){
-			boolean contactFound = false;
-			for (ContactImpl contact2 : contactSet){
-				if(((ContactImpl)contact1).equals(contact2)){
-					contactFound = true;
-					break;
-				}
-			}
-			if(!contactFound){
+		for (Contact cont: contacts){
+			if (!containsContact((ContactImpl)cont)){
 				return false;
 			}
 		}
 		return true;
 	}
+
 
 	public PastMeeting getPastMeeting(int id){
 		return null;
@@ -62,6 +57,7 @@ public class ContactManagerImpl implements ContactManager{
 		return null;
 	}
 	public void addNewPastMeeting(Set<Contact> contacts, Calendar date, String text){
+
 	}
 	public void addMeetingNotes(int id, String text){
 	}
