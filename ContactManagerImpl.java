@@ -14,7 +14,7 @@ public class ContactManagerImpl implements ContactManager{
 	private int uniqueMeetingIdGenerator = 1;
 
 	public int addFutureMeeting(Set<Contact> contacts, Calendar date){
-		if (! doesContactExist(contacts)){
+		if (! doContactsAllExist(contacts)){
 			throw new IllegalArgumentException("Contact not known");
 		}
 		if (new GregorianCalendar().getInstance().after(date)){
@@ -28,7 +28,7 @@ public class ContactManagerImpl implements ContactManager{
 		}
 	}
 
-	public boolean doesContactExist(Set<Contact> contacts){  //checks if contacts are unknown/non-existent
+	public boolean doContactsAllExist(Set<Contact> contacts){  //checks if contacts are unknown/non-existent
 		for (Contact cont: contacts){
 			if (!containsContact((ContactImpl)cont)){
 				return false;
@@ -57,7 +57,21 @@ public class ContactManagerImpl implements ContactManager{
 		return null;
 	}
 	public void addNewPastMeeting(Set<Contact> contacts, Calendar date, String text){
-
+		if (contacts.isEmpty()){
+			throw new IllegalArgumentException("Contact set is empty");
+		}
+		if (! doContactsAllExist(contacts)){
+			throw new IllegalArgumentException("The set of contacts contains contacts that are not recognised");
+		}
+		if (contacts == null || date == null || text == null){
+			throw new NullPointerException("Arguments cannot be null");
+		}
+		else{
+			PastMeetingImpl newPastMeeting = new PastMeetingImpl(contacts, date, uniqueMeetingIdGenerator);
+			uniqueMeetingIdGenerator++;
+			newPastMeeting.addNotes(text);
+			this.meetingSet.add(newPastMeeting);
+		}
 	}
 	public void addMeetingNotes(int id, String text){
 	}
