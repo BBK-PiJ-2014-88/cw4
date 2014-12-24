@@ -10,14 +10,16 @@ import java.util.GregorianCalendar;
 public class ContactManagerTest{
 	private ContactManagerImpl contactManagerTester1;
 	private ContactManager contactManagerTester2;
-	private Set<Contact> contacts = new HashSet<Contact>();
-	private Set<Meeting> meetings = new TreeSet<Meeting>();
+	private Set<Contact> contacts;
+	private Set<Meeting> meetings;
 	Calendar randomDate = new GregorianCalendar(2014,12,10);
 
 	@Before
 	public void buildUp(){
 		contactManagerTester1 = new ContactManagerImpl();
 		contactManagerTester2 = new ContactManagerImpl();
+		contacts = new HashSet<Contact>();
+		meetings = new TreeSet<Meeting>();
 	}
 
 	@Test
@@ -108,7 +110,7 @@ public class ContactManagerTest{
 		contactManagerTester1.getContacts(0);
 	}
 
-	// addFutureMeeting tests here
+	// addFutureMeeting tests start here
 
 	@Test (expected = IllegalArgumentException.class) //adding Contact Set containing unknown contact to Contact Manager
 	public void testAddFutureMeetingWithUnknownContact(){
@@ -160,6 +162,20 @@ public class ContactManagerTest{
 			int output = contactManagerTester1.addFutureMeeting(contactSetWithUnknown, futureDate);
 			assertEquals(expected,output);
 	}
+/*
+	//getPastMeeting tests start here
 
+	@Test
+	public void testGetPastMeeting(){
+		contactManagerTester2.addNewContact("Daniel", "Daniel notes");
+		contactManagerTester2.addNewContact("Smith", "Smith notes");
+		contactManagerTester2.addNewContact("Chris", "Chris notes");
+		contacts.add(new ContactImpl("Daniel", "Daniel notes",1));
+		contacts.add(new ContactImpl("Smith", "Smith notes",2));
+		contacts.add(new ContactImpl("Chris", "Chris notes",3));
+		Calendar date1 = new GregorianCalendar(2015,12,10);
+		Calendar date2 = new GregorianCalendar(2015,12,10);
+		Calendar date3 = new GregorianCalendar(2016,12,10);
 
+	}*/
 }
