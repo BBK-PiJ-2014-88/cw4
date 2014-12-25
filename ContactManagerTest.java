@@ -223,11 +223,11 @@ public class ContactManagerTest{
 	}*/
 
 
-/*
+
 	//getPastMeeting tests start here
 
 	@Test
-	public void testGetPastMeeting(){
+	public void testGetPastMeeting(){ //correct parameters
 		contactManagerTester2.addNewContact("Daniel", "Daniel notes");
 		contactManagerTester2.addNewContact("Smith", "Smith notes");
 		contactManagerTester2.addNewContact("Chris", "Chris notes");
@@ -237,6 +237,13 @@ public class ContactManagerTest{
 		Calendar date1 = new GregorianCalendar(2015,12,10);
 		Calendar date2 = new GregorianCalendar(2015,12,10);
 		Calendar date3 = new GregorianCalendar(2016,12,10);
-
-	}*/
+		contactManagerTester2.addNewPastMeeting(contacts, date1, "notes"); //meeting id 1
+		contactManagerTester2.addNewPastMeeting(contacts, date2, "notes"); 	//meeting id 2
+		contactManagerTester2.addNewPastMeeting(contacts, date3, "notes");	//meeting id 3
+		PastMeeting expectedMeeting = new PastMeeting(contacts, date2, 2);
+		expectedMeeting.addNotes("notes");
+		PastMeeting expected = expectedMeeting;
+		PastMeeting output = contactManagerTester2.getPastMeeting(2);
+		assertEquals(expected,output);
+	}
 }
