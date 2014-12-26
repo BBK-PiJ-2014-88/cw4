@@ -168,6 +168,16 @@ public class ContactManagerImpl implements ContactManager{
 		return this.contactSet.contains(con);
 	}
 
+	public void updateMeetingList(){
+		for (MeetingImpl meeting: meetingSet){
+			if ((isMeetingInPast(meeting)) && (meeting.getClass() == FutureMeetingImpl.class)){
+				PastMeetingImpl pastMeetingConverted = new PastMeetingImpl(meeting.getContacts(), meeting.getDate(), meeting.getId());
+				meetingSet.remove(meeting);
+				meetingSet.add(pastMeetingConverted);
+			}
+		}
+	}
+
 	private class MeetingComparator implements Comparator<MeetingImpl>{
 		@Override
 		public int compare(MeetingImpl meeting1, MeetingImpl meeting2){
