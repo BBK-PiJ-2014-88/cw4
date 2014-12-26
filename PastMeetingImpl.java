@@ -2,17 +2,10 @@ import java.util.Set;
 import java.util.Calendar;
 
 public class PastMeetingImpl extends MeetingImpl implements PastMeeting{
-	String notes = "";
 	public PastMeetingImpl(Set<Contact> contacts, Calendar date, int id){
 		super(contacts, date, id);
 	}
 
-	public void addNotes(String notes){
-		this.notes = this.notes + notes + "\n";
-	}
-	public String getNotes(){
-		return notes;
-	}
 
 	@Override
 	public boolean equals(Object o){

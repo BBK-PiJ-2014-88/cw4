@@ -422,7 +422,7 @@ public class ContactManagerTest{
 		Calendar datePast = new GregorianCalendar(2010,12,10);
 		contactManagerTester2.addNewPastMeeting(contacts, datePast, "notes:");
 		contactManagerTester2.addMeetingNotes(1, "more notes");
-		String expected = "notes:" + "\n" + "more notes";
+		String expected = "notes:" + "\n" + "more notes" + "\n";
 		String output = contactManagerTester2.getPastMeeting(1).getNotes();
 		assertEquals(expected, output);
 	}

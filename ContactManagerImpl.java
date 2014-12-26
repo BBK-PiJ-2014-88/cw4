@@ -111,6 +111,16 @@ public class ContactManagerImpl implements ContactManager{
 		}
 	}
 	public void addMeetingNotes(int id, String text){
+		for (MeetingImpl meeting : meetingSet){
+			if (meeting.getId() == id){
+				if (new GregorianCalendar().getInstance().before(meeting.getDate())){
+					throw new IllegalArgumentException("Meeting must not be in the future");
+				}
+				meeting.addNotes(text);
+				return;
+			}
+		}
+		throw new IllegalArgumentException("Meeting not found");
 	}
 	public void addNewContact(String name, String notes){
 		if (name == null || notes == null){
