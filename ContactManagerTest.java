@@ -342,4 +342,60 @@ public class ContactManagerTest{
 		assertEquals(expected,output);
 	}
 
+	//getMeeting tests start here
+	@Test
+	public void testGetMeetingCorrectIDFuture(){
+		contactManagerTester2.addNewContact("Daniel", "Daniel notes");
+		contactManagerTester2.addNewContact("Smith", "Smith notes");
+		contactManagerTester2.addNewContact("Chris", "Chris notes");
+		contacts.add(new ContactImpl("Daniel", "Daniel notes",1));
+		contacts.add(new ContactImpl("Smith", "Smith notes",2));
+		contacts.add(new ContactImpl("Chris", "Chris notes",3));
+		Calendar dateFuture = new GregorianCalendar(2015,12,10);
+		Calendar datePast = new GregorianCalendar(2010,12,10);
+		contactManagerTester2.addNewPastMeeting(contacts, datePast, "notes"); //meeting id 1
+		contactManagerTester2.addFutureMeeting(contacts, dateFuture); 	//meeting id 2
+		contactManagerTester2.addFutureMeeting(contacts, dateFuture);	//meeting id 3
+		FutureMeetingImpl expectedMeeting = new FutureMeetingImpl(contacts, dateFuture, 2);
+		Meeting expected = expectedMeeting;
+		Meeting output = contactManagerTester2.getMeeting(2);
+		assertEquals(expected, output);
+	}
+	@Test
+	public void testGetMeetingCorrectIDPast(){
+		contactManagerTester2.addNewContact("Daniel", "Daniel notes");
+		contactManagerTester2.addNewContact("Smith", "Smith notes");
+		contactManagerTester2.addNewContact("Chris", "Chris notes");
+		contacts.add(new ContactImpl("Daniel", "Daniel notes",1));
+		contacts.add(new ContactImpl("Smith", "Smith notes",2));
+		contacts.add(new ContactImpl("Chris", "Chris notes",3));
+		Calendar dateFuture = new GregorianCalendar(2015,12,10);
+		Calendar datePast = new GregorianCalendar(2010,12,10);
+		contactManagerTester2.addNewPastMeeting(contacts, datePast, "notes"); //meeting id 1
+		contactManagerTester2.addFutureMeeting(contacts, dateFuture); 	//meeting id 2
+		contactManagerTester2.addFutureMeeting(contacts, dateFuture);	//meeting id 3
+		PastMeetingImpl expectedMeeting = new PastMeetingImpl(contacts, datePast, 1);
+		expectedMeeting.addNotes("notes");
+		Meeting expected = expectedMeeting;
+		Meeting output = contactManagerTester2.getMeeting(1);
+		assertEquals(expected, output);
+	}
+	@Test
+	public void testGetMeetingIdDoesNotExist(){
+		contactManagerTester2.addNewContact("Daniel", "Daniel notes");
+		contactManagerTester2.addNewContact("Smith", "Smith notes");
+		contactManagerTester2.addNewContact("Chris", "Chris notes");
+		contacts.add(new ContactImpl("Daniel", "Daniel notes",1));
+		contacts.add(new ContactImpl("Smith", "Smith notes",2));
+		contacts.add(new ContactImpl("Chris", "Chris notes",3));
+		Calendar dateFuture = new GregorianCalendar(2015,12,10);
+		Calendar datePast = new GregorianCalendar(2010,12,10);
+		contactManagerTester2.addNewPastMeeting(contacts, datePast, "notes"); //meeting id 1
+		contactManagerTester2.addFutureMeeting(contacts, dateFuture); 	//meeting id 2
+		contactManagerTester2.addFutureMeeting(contacts, dateFuture);	//meeting id 3
+		MeetingImpl expectedMeeting = null;
+		Meeting expected = expectedMeeting;
+		contactManagerTester2.getMeeting(4);
+
+	}
 }

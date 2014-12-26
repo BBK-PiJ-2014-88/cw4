@@ -77,7 +77,7 @@ public class ContactManagerImpl implements ContactManager{
 
 	}
 	public Meeting getMeeting(int id){
-		return null;
+		return new MeetingImpl(null, null, 2);
 	}
 	public List<Meeting> getFutureMeetingList(Contact contact){
 		return null;
