@@ -45,7 +45,7 @@ public class ContactManagerImpl implements ContactManager{
 					throw new IllegalArgumentException("Requested Meeting must have already taken place");
 				}
 				else{
-					return (PastMeeting) meeting;
+					return (PastMeetingImpl) meeting;
 				}
 			}
 		}
@@ -63,7 +63,18 @@ public class ContactManagerImpl implements ContactManager{
 	}
 
 	public FutureMeeting getFutureMeeting(int id){
+		for (MeetingImpl meeting: meetingSet){
+			if (meeting.getId() == id){
+				if (isMeetingInPast(meeting)){
+					throw new IllegalArgumentException("Requested Meeting must be in future");
+				}
+				else{
+					return (FutureMeetingImpl) meeting;
+				}
+			}
+		}
 		return null;
+
 	}
 	public Meeting getMeeting(int id){
 		return null;
