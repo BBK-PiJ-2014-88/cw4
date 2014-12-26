@@ -39,8 +39,29 @@ public class ContactManagerImpl implements ContactManager{
 
 
 	public PastMeeting getPastMeeting(int id){
+		for (MeetingImpl meeting: meetingSet){
+			if (meeting.getId() == id){
+				if (!isMeetingInPast(meeting)){
+					throw new IllegalArgumentException("Requested Meeting must have already taken place");
+				}
+				else{
+					return (PastMeeting) meeting;
+				}
+			}
+		}
 		return null;
 	}
+
+	public boolean isMeetingInPast(MeetingImpl meeting){
+		Calendar currentTime = Calendar.getInstance();
+		if (meeting.getDate().before(currentTime)){
+			return true;
+		}
+		else{
+			return false;
+		}
+	}
+
 	public FutureMeeting getFutureMeeting(int id){
 		return null;
 	}
