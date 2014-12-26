@@ -22,4 +22,22 @@ public class MeetingImpl implements Meeting{
 	public Set<Contact> getContacts(){
 		return contactSet;
 	}
+
+	@Override
+	public boolean equals(Object o){
+		if (o == null){
+			return false;
+		}
+		if (this.getClass() != o.getClass()){
+			return false;
+		}
+		MeetingImpl meet = (MeetingImpl) o;
+		if (this.getId() == meet.getId() && this.getDate().equals(meet.getDate()) && this.getContacts().equals(meet.getContacts())){
+			return true;
+		}
+		else{
+			return false;
+		}
+	}
+
 }
