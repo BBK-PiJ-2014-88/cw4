@@ -24,6 +24,13 @@ public class MeetingImpl implements Meeting{
 		return contactSet;
 	}
 
+	public void addNotes(String notes){
+		this.notes = notes;
+	}
+	public String getNotes(){
+		return notes;
+	}
+
 	@Override
 	public boolean equals(Object o){
 		if (o == null){
@@ -41,7 +48,4 @@ public class MeetingImpl implements Meeting{
 		}
 	}
 
-	public void addNotes(String notes){
-		this.notes = notes;
-	}
 }

@@ -6,9 +6,6 @@ public class PastMeetingImpl extends MeetingImpl implements PastMeeting{
 	public PastMeetingImpl(Set<Contact> contacts, Calendar date, int id){
 		super(contacts, date, id);
 	}
-	public String getNotes(){
-		return notes;
-	}
 
 	@Override
 	public boolean equals(Object o){
