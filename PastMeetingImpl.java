@@ -9,9 +9,7 @@ public class PastMeetingImpl extends MeetingImpl implements PastMeeting{
 	public String getNotes(){
 		return notes;
 	}
-	public void addNotes(String notes){
-		this.notes = notes;
-	}
+
 	@Override
 	public boolean equals(Object o){
 		if (o == null){
