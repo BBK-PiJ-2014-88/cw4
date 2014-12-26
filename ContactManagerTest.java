@@ -5,6 +5,8 @@ import java.util.TreeSet;
 import java.util.HashSet;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.List;
+import java.util.ArrayList;
 
 
 public class ContactManagerTest{
@@ -446,6 +448,51 @@ public class ContactManagerTest{
 		contactManagerTester3.addMeetingNotes(1, nullNotes);
 	}
 
+// getFutureMeetingList starts here
 
+	@Test
+	public void testGetFutureMeetingListCorrect(){
+		Set<Contact> contactSet2 = new HashSet<Contact>();
+		Calendar date1 = new GregorianCalendar(2011,8,15);
+		Calendar date2 = new GregorianCalendar(2016,10,12);
+		Calendar date3 = new GregorianCalendar(2015,12,10);
+		contactManagerTester3.addNewContact("Takahito", "Japanese guy");
+		contactSet2.add(new ContactImpl("Takahito", "Japanese guy",1));
+		contactSet2.add(new ContactImpl("Smith", "Smith notes",2));
+		contactManagerTester3.addNewPastMeeting(contactSet, date1, "notes");
+		contactManagerTester3.addNewPastMeeting(contactSet, date1, "notes");
+		contactManagerTester3.addFutureMeeting(contactSet2, date2);
+		contactManagerTester3.addFutureMeeting(contactSet2, date3);
+		List<Meeting> outputList = new ArrayList();
+		outputList.add(new FutureMeetingImpl(contactSet2, date3, 4));
+		outputList.add(new FutureMeetingImpl(contactSet2, date2, 3));
+		List<Meeting> expected = outputList;
+		List<Meeting> output = contactManagerTester3.getFutureMeetingList(new ContactImpl("Takahito", "Japanese guy", 1));
+		assertEquals(expected, output);
+	}
+
+	@Test (expected = IllegalArgumentException.class)
+	public void testGetFutureMeetingListNonExistantContact(){
+		Contact unknownContact = new ContactImpl("Neil", 4);
+		contactManagerTester3.getFutureMeetingList(unknownContact);
+	}
+	@Test
+	public void testGetFutureMeetingListAllMeetingsInPast(){
+		Set<Contact> contactSet2 = new HashSet<Contact>();
+		Calendar date1 = new GregorianCalendar(2011,8,15);
+		Calendar date2 = new GregorianCalendar(2016,10,12);
+		Calendar date3 = new GregorianCalendar(2015,12,10);
+		contactManagerTester3.addNewContact("Takahito", "Japanese guy");
+		contactSet2.add(new ContactImpl("Takahito", "Japanese guy",1));
+		contactSet2.add(new ContactImpl("Smith", "Smith notes",2));
+		contactManagerTester3.addNewPastMeeting(contactSet2, date1, "notes");
+		contactManagerTester3.addNewPastMeeting(contactSet2, date1, "notes");
+		contactManagerTester3.addFutureMeeting(contactSet, date2);
+		contactManagerTester3.addFutureMeeting(contactSet, date3);
+		List<Meeting> outputList = new ArrayList();
+		List<Meeting> expected = outputList;
+		List<Meeting> output = contactManagerTester3.getFutureMeetingList(new ContactImpl("Takahito", "Japanese guy", 1));
+		assertEquals(expected, output);
+	}
 
 }
