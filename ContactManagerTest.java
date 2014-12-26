@@ -10,16 +10,26 @@ import java.util.GregorianCalendar;
 public class ContactManagerTest{
 	private ContactManagerImpl contactManagerTester1;
 	private ContactManager contactManagerTester2;
+	private ContactManager contactManagerTester3;
 	private Set<Contact> contacts;
+	private Set<Contact> contactSet;
 	private Set<Meeting> meetings;
 	Calendar randomDate = new GregorianCalendar(2014,12,10);
 
 	@Before
 	public void buildUp(){
 		contactManagerTester1 = new ContactManagerImpl();
-		contactManagerTester2 = new ContactManagerImpl();
+		contactManagerTester2 = new ContactManagerImpl(); //move adding of contacts here later on
+		contactManagerTester3 = new ContactManagerImpl();
 		contacts = new HashSet<Contact>();
+		contactSet = new HashSet<Contact>();
 		meetings = new TreeSet<Meeting>();
+		contactManagerTester3.addNewContact("Daniel", "Daniel notes");
+		contactManagerTester3.addNewContact("Smith", "Smith notes");
+		contactManagerTester3.addNewContact("Chris", "Chris notes");
+		contactSet.add(new ContactImpl("Daniel", "Daniel notes",1));
+		contactSet.add(new ContactImpl("Smith", "Smith notes",2));
+		contactSet.add(new ContactImpl("Chris", "Chris notes",3));
 	}
 
 	@Test
@@ -343,6 +353,7 @@ public class ContactManagerTest{
 	}
 
 	//getMeeting tests start here
+
 	@Test
 	public void testGetMeetingCorrectIDFuture(){
 		contactManagerTester2.addNewContact("Daniel", "Daniel notes");
@@ -396,6 +407,45 @@ public class ContactManagerTest{
 		MeetingImpl expectedMeeting = null;
 		Meeting expected = expectedMeeting;
 		contactManagerTester2.getMeeting(4);
-
 	}
+
+	//addMeetingNotes tests start here
+
+	@Test
+	public void testaddMeetingNotesCorrect(){
+		contactManagerTester2.addNewContact("Daniel", "Daniel notes");
+		contactManagerTester2.addNewContact("Smith", "Smith notes");
+		contactManagerTester2.addNewContact("Chris", "Chris notes");
+		contacts.add(new ContactImpl("Daniel", "Daniel notes",1));
+		contacts.add(new ContactImpl("Smith", "Smith notes",2));
+		contacts.add(new ContactImpl("Chris", "Chris notes",3));
+		Calendar datePast = new GregorianCalendar(2010,12,10);
+		contactManagerTester2.addNewPastMeeting(contacts, datePast, "notes:");
+		contactManagerTester2.addMeetingNotes(1, "more notes");
+		String expected = "notes:" + "\n" + "more notes";
+		String output = contactManagerTester2.getPastMeeting(1).getNotes();
+		assertEquals(expected, output);
+	}
+	@Test (expected = IllegalArgumentException.class)
+	public void testaddMeetingNotesIDNotExistant(){
+		Calendar datePast = new GregorianCalendar(2010,12,10);
+		contactManagerTester3.addNewPastMeeting(contactSet, datePast, "notes:");
+		contactManagerTester3.addMeetingNotes(2, "more notes");
+	}
+	@Test (expected = IllegalArgumentException.class)
+	public void testaddMeetingNotesDateInFuture(){
+		Calendar dateFuture = new GregorianCalendar(2018,12,10);
+		contactManagerTester3.addFutureMeeting(contactSet, dateFuture);
+		contactManagerTester3.addMeetingNotes(1, "more notes");
+	}
+	@Test (expected = IllegalArgumentException.class)
+	public void testaddMeetingNotesNullNotes(){
+		Calendar datePast = new GregorianCalendar(2011,12,10);
+		contactManagerTester3.addFutureMeeting(contactSet, datePast);
+		String nullNotes = null;
+		contactManagerTester3.addMeetingNotes(1, nullNotes);
+	}
+
+
+
 }

@@ -7,7 +7,7 @@ public class MeetingImpl implements Meeting{
 	private Set<Contact> contactSet = new HashSet<Contact>();
 	private Calendar meetingDate = new GregorianCalendar();
 	private int meetingId;
-	private String notes;
+	private String notes = "";
 
 	public MeetingImpl(Set<Contact> contacts, Calendar date, int id){
 		this.meetingId = id;
@@ -25,7 +25,7 @@ public class MeetingImpl implements Meeting{
 	}
 
 	public void addNotes(String notes){
-		this.notes = notes;
+		this.notes = this.notes + notes + "\n";
 	}
 	public String getNotes(){
 		return notes;
