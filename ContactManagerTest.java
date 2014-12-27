@@ -348,17 +348,18 @@ public class ContactManagerTest{
 	public void testGetFutureMeetingListCorrect(){ //Correctly returns FutureMeetingList
 		Set<Contact> contactSet2 = new HashSet<Contact>();
 		contactManagerTester3.addNewContact("Takahito", "Japanese guy");
-		contactSet2.add(new ContactImpl("Takahito", "Japanese guy",1));
-		contactSet2.add(new ContactImpl("Smith", "Smith notes",2));
+		contactManagerTester3.addNewContact("Smith", "Smith notes");
+		contactSet2.add(new ContactImpl("Takahito", "Japanese guy",4));  //3 contacts have already been added to this contactManager at buildup()
+		contactSet2.add(new ContactImpl("Smith", "Smith notes",5));
 		contactManagerTester3.addNewPastMeeting(contactSet, pastDate, "notes");
 		contactManagerTester3.addNewPastMeeting(contactSet, pastDate, "notes");
 		contactManagerTester3.addFutureMeeting(contactSet2, futureDate2); //meeting id 3.
-		contactManagerTester3.addFutureMeeting(contactSet2, futureDate); //meeting id 4. futureDate earlier than futureDate2
-		List<Meeting> outputList = new ArrayList();
+		contactManagerTester3.addFutureMeeting(contactSet2, futureDate); //meeting id 4. futureDate earlier than futureDate2 so should come
+		List<Meeting> outputList = new ArrayList();                      //first in returned List
 		outputList.add(new FutureMeetingImpl(contactSet2,futureDate , 4));
 		outputList.add(new FutureMeetingImpl(contactSet2, futureDate2, 3));
 		List<Meeting> expected = outputList;
-		List<Meeting> output = contactManagerTester3.getFutureMeetingList(new ContactImpl("Takahito", "Japanese guy", 1));
+		List<Meeting> output = contactManagerTester3.getFutureMeetingList(new ContactImpl("Takahito", "Japanese guy", 4));
 		assertEquals(expected, output);
 	}
 
@@ -371,7 +372,7 @@ public class ContactManagerTest{
 	public void testGetFutureMeetingListAllMeetingsInPast(){
 		Set<Contact> contactSet2 = new HashSet<Contact>();
 		contactManagerTester3.addNewContact("Takahito", "Japanese guy");
-		contactSet2.add(new ContactImpl("Takahito", "Japanese guy",1));
+		contactSet2.add(new ContactImpl("Takahito", "Japanese guy",4));
 		contactSet2.add(new ContactImpl("Smith", "Smith notes",2));
 		contactManagerTester3.addNewPastMeeting(contactSet2, pastDate, "notes");
 		contactManagerTester3.addNewPastMeeting(contactSet2, pastDate, "notes");
@@ -379,7 +380,7 @@ public class ContactManagerTest{
 		contactManagerTester3.addFutureMeeting(contactSet, futureDate2);
 		List<Meeting> outputList = new ArrayList();
 		List<Meeting> expected = outputList;
-		List<Meeting> output = contactManagerTester3.getFutureMeetingList(new ContactImpl("Takahito", "Japanese guy", 1));
+		List<Meeting> output = contactManagerTester3.getFutureMeetingList(new ContactImpl("Takahito", "Japanese guy", 4));
 		assertEquals(expected, output);
 	}
 

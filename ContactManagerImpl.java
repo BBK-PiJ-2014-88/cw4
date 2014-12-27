@@ -5,6 +5,7 @@ import java.util.TreeSet;
 import java.util.HashSet;
 import java.util.Comparator;
 import java.util.GregorianCalendar;
+import java.util.ArrayList;
 
 public class ContactManagerImpl implements ContactManager{
 	private Set<ContactImpl> contactSet = new HashSet<ContactImpl>();
@@ -85,7 +86,22 @@ public class ContactManagerImpl implements ContactManager{
 		return null;
 	}
 	public List<Meeting> getFutureMeetingList(Contact contact){
-		return null;
+		List<Meeting> meetingsWithContact = new ArrayList<Meeting>();
+		boolean contactFound = false;
+		for (MeetingImpl meeting : meetingSet){
+			for (Contact meetingContact : meeting.getContacts()){
+				if (meetingContact.equals(contact)){
+					contactFound = true;
+					if(!isMeetingInPast(meeting)){
+						meetingsWithContact.add(meeting);
+					}
+				}
+			}
+		}
+		if (contactFound){
+			return meetingsWithContact;
+		}
+		throw new IllegalArgumentException("Contact not found");
 	}
 	public List<Meeting> getFutureMeetingList(Calendar date){
 		return null;
