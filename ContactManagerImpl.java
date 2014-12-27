@@ -129,9 +129,7 @@ public class ContactManagerImpl implements ContactManager{
 		for (MeetingImpl meeting : meetingSet){
 			for (Contact contact2 : meeting.getContacts()){
 				if (contact.equals(contact2) && isMeetingInPast(meeting)){
-					PastMeetingImpl pastMeeting = new PastMeetingImpl(meeting.getContacts(), meeting.getDate(), meeting.getId());
-					pastMeeting.addNotes(meeting.getNotes());
-					pastMeetingsWithContact.add(pastMeeting);
+					pastMeetingsWithContact.add((PastMeeting)meeting);
 				}
 			}
 		}
