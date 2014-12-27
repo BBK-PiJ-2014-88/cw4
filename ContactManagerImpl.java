@@ -122,7 +122,20 @@ public class ContactManagerImpl implements ContactManager{
 	}
 
 	public List<PastMeeting> getPastMeetingList(Contact contact){
-		return null;
+		List<PastMeeting> pastMeetingsWithContact = new ArrayList<PastMeeting>();
+		if (!containsContact((ContactImpl)contact)){
+			throw new IllegalArgumentException("Contact does not exist");
+		}
+		for (MeetingImpl meeting : meetingSet){
+			for (Contact contact2 : meeting.getContacts()){
+				if (contact.equals(contact2) && isMeetingInPast(meeting)){
+					PastMeetingImpl pastMeeting = new PastMeetingImpl(meeting.getContacts(), meeting.getDate(), meeting.getId());
+					pastMeeting.addNotes(meeting.getNotes());
+					pastMeetingsWithContact.add(pastMeeting);
+				}
+			}
+		}
+		return pastMeetingsWithContact;
 	}
 	public void addNewPastMeeting(Set<Contact> contacts, Calendar date, String text){
 		if (contacts.isEmpty()){
@@ -135,7 +148,7 @@ public class ContactManagerImpl implements ContactManager{
 			throw new NullPointerException("Arguments cannot be null");
 		}
 		else{
-			MeetingImpl newPastMeeting = new PastMeetingImpl(contacts, date, uniqueMeetingIdGenerator);
+			PastMeetingImpl newPastMeeting = new PastMeetingImpl(contacts, date, uniqueMeetingIdGenerator);
 			uniqueMeetingIdGenerator++;
 			newPastMeeting.addNotes(text);
 			this.meetingSet.add(newPastMeeting);

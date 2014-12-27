@@ -403,8 +403,8 @@ public class ContactManagerTest{
 		Calendar sameDayDifferentTime2 = new GregorianCalendar(2017, 11, 11, 15, 10);
 		Calendar sameDayDifferentTime3 = new GregorianCalendar(2017, 11, 11, 15, 30);
 		Calendar sameDayDifferentTime4 = new GregorianCalendar(2017, 11, 11, 18, 10);
-		contactManagerTester3.addFutureMeeting(contactSet, sameDayDifferentTime3);
-		contactManagerTester3.addFutureMeeting(contactSet, sameDayDifferentTime1);
+		contactManagerTester3.addFutureMeeting(contactSet, sameDayDifferentTime3); //added in random order
+		contactManagerTester3.addFutureMeeting(contactSet, sameDayDifferentTime1); // returned list should be in order
 		contactManagerTester3.addFutureMeeting(contactSet, sameDayDifferentTime4);
 		contactManagerTester3.addFutureMeeting(contactSet, sameDayDifferentTime2);
 		contactManagerTester3.addNewPastMeeting(contactSet, pastDate, "notes"); //different date, this meeting should not be in output
@@ -454,25 +454,24 @@ public class ContactManagerTest{
 		Calendar sameDayDifferentTime2 = new GregorianCalendar(2011, 8, 11, 15, 10);
 		Calendar sameDayDifferentTime3 = new GregorianCalendar(2011, 8, 11, 15, 30);
 		Calendar sameDayDifferentTime4 = new GregorianCalendar(2011, 8, 11, 19, 10);
-		contactManagerTester3.addNewPastMeeting(contactSet, sameDayDifferentTime3, "notes");
-		contactManagerTester3.addNewPastMeeting(contactSet, sameDayDifferentTime1, "notes");
+		contactManagerTester3.addNewPastMeeting(contactSet, sameDayDifferentTime3, "notes"); //added in random order
+		contactManagerTester3.addNewPastMeeting(contactSet, sameDayDifferentTime1, "notes"); //returned list should be in order
 		contactManagerTester3.addNewPastMeeting(contactSet, sameDayDifferentTime4, "notes");
 		contactManagerTester3.addNewPastMeeting(contactSet, sameDayDifferentTime2, "notes");
-		contactManagerTester3.addNewPastMeeting(contactSet, pastDate, "notes"); //different date, this meeting should not be in output
-		List<PastMeeting> ChronologicallySortedMeetingList = new ArrayList<PastMeeting>();
-		PastMeeting pastMeeting1 = new PastMeetingImpl(contactSet, sameDayDifferentTime1, 2);
-		contactManagerTester3.addMeetingNotes(2, "notes");
-		PastMeeting pastMeeting2 = new PastMeetingImpl(contactSet, sameDayDifferentTime2, 4);
-		contactManagerTester3.addMeetingNotes(4, "notes");
-		PastMeeting pastMeeting3 = new PastMeetingImpl(contactSet, sameDayDifferentTime3, 1);
-		contactManagerTester3.addMeetingNotes(1, "notes");
-		PastMeeting pastMeeting4 = new PastMeetingImpl(contactSet, sameDayDifferentTime4, 3);
-		contactManagerTester3.addMeetingNotes(3, "notes");
-		ChronologicallySortedMeetingList.add(pastMeeting1);
-		ChronologicallySortedMeetingList.add(pastMeeting2);
-		ChronologicallySortedMeetingList.add(pastMeeting3);
-		ChronologicallySortedMeetingList.add(pastMeeting4);
-		List<PastMeeting> expected = ChronologicallySortedMeetingList;
+		List<PastMeeting> ChronologicallySortedPastMeetingList = new ArrayList<PastMeeting>();
+		PastMeetingImpl pastMeeting1 = new PastMeetingImpl(contactSet, sameDayDifferentTime1, 2);
+		pastMeeting1.addNotes("notes");
+		PastMeetingImpl pastMeeting2 = new PastMeetingImpl(contactSet, sameDayDifferentTime2, 4);
+		pastMeeting2.addNotes("notes");
+		PastMeetingImpl pastMeeting3 = new PastMeetingImpl(contactSet, sameDayDifferentTime3, 1);
+		pastMeeting3.addNotes("notes");
+		PastMeetingImpl pastMeeting4 = new PastMeetingImpl(contactSet, sameDayDifferentTime4, 3);
+		pastMeeting4.addNotes("notes");
+		ChronologicallySortedPastMeetingList.add(pastMeeting1);
+		ChronologicallySortedPastMeetingList.add(pastMeeting2);
+		ChronologicallySortedPastMeetingList.add(pastMeeting3);
+		ChronologicallySortedPastMeetingList.add(pastMeeting4);
+		List<PastMeeting> expected = ChronologicallySortedPastMeetingList;
 		List<PastMeeting> output = contactManagerTester3.getPastMeetingList(new ContactImpl("Smith", "Smith notes",2));
 		assertEquals(expected, output);
 	}
