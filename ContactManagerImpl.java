@@ -111,6 +111,9 @@ public class ContactManagerImpl implements ContactManager{
 		}
 	}
 	public void addMeetingNotes(int id, String text){
+		if (text == null){
+			throw new NullPointerException("Notes must not be null");
+		}
 		for (MeetingImpl meeting : meetingSet){
 			if (meeting.getId() == id){
 				if (new GregorianCalendar().getInstance().before(meeting.getDate())){
