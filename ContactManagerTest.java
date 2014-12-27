@@ -397,7 +397,7 @@ public class ContactManagerTest{
 		assertEquals(expected, output);
 	}
 
-	@Test //Correct Parameters passed. There are several meetings taking place on same date. arranged chronologically by time
+	@Test //Correct Parameters passed. There are several meetings taking place on same date. Returned List is Arranged chronologically by time
 	public void testGetFutureMeetingListSameDateDifferentTimes(){
 		Calendar sameDayDifferentTime1 = new GregorianCalendar(2017, 11, 11, 12, 10);
 		Calendar sameDayDifferentTime2 = new GregorianCalendar(2017, 11, 11, 15, 10);
@@ -428,5 +428,53 @@ public class ContactManagerTest{
 		assertEquals(expected, output);
 	}
 
+//getPastMeetingList(Contact) tests start here
+
+	@Test (expected = IllegalArgumentException.class)
+	public void testGetPastMeetingListUnknownContact(){ //Inserting unknown contact as parameter to getPastMeetingList(Contact contact)
+		contactManagerTester3.addNewPastMeeting(contactSet, pastDate, "notes");
+		contactManagerTester3.getPastMeetingList(new ContactImpl("Suzuki", "Suzuki notes", 8));
+	}
+
+	@Test //Contact passed in parameter is valid but all contact's meetings are in the future so empty List is returned
+	public void testGetPastMeetingListMeetingsAllInFuture(){
+		contactManagerTester3.addFutureMeeting(contactSet, futureDate);
+		contactManagerTester3.addFutureMeeting(contactSet, futureDate2);
+		contactManagerTester3.addFutureMeeting(contactSet, futureDate3);
+		contactManagerTester3.addFutureMeeting(contactSet, futureDate);
+		List<PastMeeting> EmptyMeetingList = new ArrayList<PastMeeting>();
+		List<PastMeeting> expected = EmptyMeetingList;
+		List<PastMeeting> output = contactManagerTester3.getPastMeetingList(new ContactImpl("Smith", "Smith notes",2));
+		assertEquals(expected, output);
+	}
+
+	@Test //Correct Parameters passed. There are several meetings taking place on same date. Returned list is Arranged chronologically by time
+	public void testGetPastMeetingListSameDateDifferentTimes(){
+		Calendar sameDayDifferentTime1 = new GregorianCalendar(2011, 8, 11, 12, 10);
+		Calendar sameDayDifferentTime2 = new GregorianCalendar(2011, 8, 11, 15, 10);
+		Calendar sameDayDifferentTime3 = new GregorianCalendar(2011, 8, 11, 15, 30);
+		Calendar sameDayDifferentTime4 = new GregorianCalendar(2011, 8, 11, 19, 10);
+		contactManagerTester3.addNewPastMeeting(contactSet, sameDayDifferentTime3, "notes");
+		contactManagerTester3.addNewPastMeeting(contactSet, sameDayDifferentTime1, "notes");
+		contactManagerTester3.addNewPastMeeting(contactSet, sameDayDifferentTime4, "notes");
+		contactManagerTester3.addNewPastMeeting(contactSet, sameDayDifferentTime2, "notes");
+		contactManagerTester3.addNewPastMeeting(contactSet, pastDate, "notes"); //different date, this meeting should not be in output
+		List<PastMeeting> ChronologicallySortedMeetingList = new ArrayList<PastMeeting>();
+		PastMeeting pastMeeting1 = new PastMeetingImpl(contactSet, sameDayDifferentTime1, 2);
+		contactManagerTester3.addMeetingNotes(2, "notes");
+		PastMeeting pastMeeting2 = new PastMeetingImpl(contactSet, sameDayDifferentTime2, 4);
+		contactManagerTester3.addMeetingNotes(4, "notes");
+		PastMeeting pastMeeting3 = new PastMeetingImpl(contactSet, sameDayDifferentTime3, 1);
+		contactManagerTester3.addMeetingNotes(1, "notes");
+		PastMeeting pastMeeting4 = new PastMeetingImpl(contactSet, sameDayDifferentTime4, 3);
+		contactManagerTester3.addMeetingNotes(3, "notes");
+		ChronologicallySortedMeetingList.add(pastMeeting1);
+		ChronologicallySortedMeetingList.add(pastMeeting2);
+		ChronologicallySortedMeetingList.add(pastMeeting3);
+		ChronologicallySortedMeetingList.add(pastMeeting4);
+		List<PastMeeting> expected = ChronologicallySortedMeetingList;
+		List<PastMeeting> output = contactManagerTester3.getPastMeetingList(new ContactImpl("Smith", "Smith notes",2));
+		assertEquals(expected, output);
+	}
 
 }
