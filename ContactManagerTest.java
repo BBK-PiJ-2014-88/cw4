@@ -342,7 +342,7 @@ public class ContactManagerTest{
 		contactManagerTester3.addMeetingNotes(1, null);
 	}
 
-// getFutureMeetingList starts here
+// getFutureMeetingList(Contact) starts here
 
 	@Test
 	public void testGetFutureMeetingListCorrect(){ //Correctly returns FutureMeetingList
@@ -384,4 +384,47 @@ public class ContactManagerTest{
 		assertEquals(expected, output);
 	}
 
+//getFutureMeetingList(Date) tests start here
+
+	@Test //passing a date as parameter on which no meetings took place
+	public void testGetFutureMeetingListDateWithNoMeetings(){
+		contactManagerTester3.addNewPastMeeting(contactSet, pastDate, "notes");
+		contactManagerTester3.addFutureMeeting(contactSet, futureDate);
+		List<Meeting> emptyMeetingList = new ArrayList<Meeting>();
+		Calendar dateWithNoMeeting = new GregorianCalendar(2019,5,2);
+		List<Meeting> expected = emptyMeetingList;
+		List<Meeting> output = contactManagerTester3.getFutureMeetingList(dateWithNoMeeting);
+		assertEquals(expected, output);
+	}
+
+	@Test //Correct Parameters passed. There are several meetings taking place on same date. arranged chronologically by time
+	public void testGetFutureMeetingListSameDateDifferentTimes(){
+		Calendar sameDayDifferentTime1 = new GregorianCalendar(2013, 11, 11, 12, 00);
+		Calendar sameDayDifferentTime2 = new GregorianCalendar(2013, 11, 11, 15, 00);
+		Calendar sameDayDifferentTime3 = new GregorianCalendar(2013, 11, 11, 15, 30);
+		Calendar sameDayDifferentTime4 = new GregorianCalendar(2013, 11, 11, 18, 00);
+		contactManagerTester3.addNewPastMeeting(contactSet, sameDayDifferentTime3, "notes");
+		contactManagerTester3.addNewPastMeeting(contactSet, sameDayDifferentTime1, "notes");
+		contactManagerTester3.addNewPastMeeting(contactSet, sameDayDifferentTime4, "notes");
+		contactManagerTester3.addNewPastMeeting(contactSet, sameDayDifferentTime2, "notes");
+		contactManagerTester3.addNewPastMeeting(contactSet, pastDate, "notes"); //different date, this meeting should not be in output
+		List<Meeting> ChronologicallySortedMeetingList = new ArrayList<Meeting>();
+		ChronologicallySortedMeetingList.add(new MeetingImpl(contactSet, sameDayDifferentTime1, 2));
+		ChronologicallySortedMeetingList.add(new MeetingImpl(contactSet, sameDayDifferentTime2, 4));
+		ChronologicallySortedMeetingList.add(new MeetingImpl(contactSet, sameDayDifferentTime3, 1));
+		ChronologicallySortedMeetingList.add(new MeetingImpl(contactSet, sameDayDifferentTime4, 3));
+		List<Meeting> expected = ChronologicallySortedMeetingList;
+		List<Meeting> output = contactManagerTester3.getFutureMeetingList(new GregorianCalendar(2013,11,11));
+		assertEquals(expected, output);
+	}
+
+	@Test //Testing that this method can also correctly return a meeting with a future date
+	public void testGetFutureMeetingListMeetingWithFutureDate(){
+		contactManagerTester3.addFutureMeeting(contactSet, futureDate2);
+		List<Meeting> listWithFutureDate = new ArrayList<Meeting>();
+		listWithFutureDate.add(new MeetingImpl(contactSet, futureDate2, 1));
+		List<Meeting> expected = listWithFutureDate;
+		List<Meeting> output = contactManagerTester3.getFutureMeetingList(futureDate2);
+		assertEquals(expected, output);
+	}
 }
