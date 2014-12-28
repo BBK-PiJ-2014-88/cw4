@@ -6,13 +6,38 @@ import java.util.HashSet;
 import java.util.Comparator;
 import java.util.GregorianCalendar;
 import java.util.ArrayList;
+import java.io.*;
 
 public class ContactManagerImpl implements ContactManager{
 	private Set<ContactImpl> contactSet = new HashSet<ContactImpl>();
 	private Set<MeetingImpl> meetingSet = new TreeSet<MeetingImpl>(new MeetingComparator());
-
 	private int uniqueContactIdGenerator = 1;
 	private int uniqueMeetingIdGenerator = 1;
+	private String fileName = "contacts.txt";
+
+	public void ContactManagerImpl(){
+		File dataFile = new File(fileName);
+		Set<MeetingImpl> meetingSetTemp = new TreeSet<MeetingImpl>();
+		if (dataFile.exists()){
+			try{
+				ObjectInputStream in = new ObjectInputStream(new FileInputStream(dataFile));
+				contactSet = (HashSet<ContactImpl>) in.readObject();
+			//	meetingSetTemp = (TreeSet<MeetingImpl>) in.readObject();
+			//	meetingSet.addAll(meetingSetTemp);
+				in.close();
+			}
+			catch (IOException e){
+				e.printStackTrace();
+			}
+			catch (ClassNotFoundException e){
+				e.printStackTrace();
+			}
+		}
+	}
+
+	public static void main(String[] args){
+		ContactManagerImpl contactManagerTest = new ContactManagerImpl();
+	}
 
 	public int addFutureMeeting(Set<Contact> contacts, Calendar date){
 		if (! doContactsAllExist(contacts)){
@@ -207,6 +232,16 @@ public class ContactManagerImpl implements ContactManager{
 		return contactsWithStringInName;
 	}
 	public void flush(){
+		File dataFile = new File(fileName);
+		try{
+			ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(dataFile));
+			out.writeObject(contactSet);
+			//out.writeObject(meetingSet);
+			out.close();
+		}
+		catch (IOException e){
+			e.printStackTrace();
+		}
 	}
 
 	public boolean containsContact(ContactImpl con){  //used this method for junit testing
@@ -223,7 +258,7 @@ public class ContactManagerImpl implements ContactManager{
 		}
 	}
 
-	private class MeetingComparator implements Comparator<MeetingImpl>{
+	private class MeetingComparator implements Comparator<MeetingImpl>, Serializable{
 		@Override
 		public int compare(MeetingImpl meeting1, MeetingImpl meeting2){
 			if (meeting1.getDate().before(meeting2.getDate())){
