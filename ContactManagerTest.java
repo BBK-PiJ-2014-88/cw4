@@ -7,6 +7,7 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.ArrayList;
+import java.io.*;
 
 
 public class ContactManagerTest{
@@ -39,6 +40,12 @@ public class ContactManagerTest{
 		contactSet.add(new ContactImpl("Daniel", "Daniel notes",1));  //adding 3 contacts to contact set
 		contactSet.add(new ContactImpl("Smith", "Smith notes",2));
 		contactSet.add(new ContactImpl("Chris", "Chris notes",3));
+	}
+
+	@After
+	public void cleanUp(){
+		File file = new File("contacts.txt");
+		file.delete();
 	}
 
 	//addNewContact() tests start here
@@ -476,4 +483,8 @@ public class ContactManagerTest{
 		assertEquals(expected, output);
 	}
 
+	//input/output tests start here
+	@Test
+	public void testing(){
+	}
 }
