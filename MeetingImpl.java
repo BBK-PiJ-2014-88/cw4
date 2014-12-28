@@ -2,8 +2,9 @@ import java.util.Calendar;
 import java.util.Set;
 import java.util.GregorianCalendar;
 import java.util.HashSet;
+import java.io.Serializable;
 
-public class MeetingImpl implements Meeting{
+public class MeetingImpl implements Meeting, Serializable{
 	private Set<Contact> contactSet = new HashSet<Contact>();
 	private Calendar meetingDate = new GregorianCalendar();
 	private int meetingId;

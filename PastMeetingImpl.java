@@ -1,7 +1,8 @@
 import java.util.Set;
 import java.util.Calendar;
+import java.io.*;
 
-public class PastMeetingImpl extends MeetingImpl implements PastMeeting{
+public class PastMeetingImpl extends MeetingImpl implements PastMeeting, Serializable{
 	public PastMeetingImpl(Set<Contact> contacts, Calendar date, int id){
 		super(contacts, date, id);
 	}

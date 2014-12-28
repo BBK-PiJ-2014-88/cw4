@@ -47,6 +47,12 @@ public class ContactManagerTest{
 		file.delete();
 	}
 
+	@AfterClass
+	public static void cleanUpFinal(){
+		File file = new File("contacts.txt");
+		file.delete();
+	}
+
 	//addNewContact() tests start here
 	@Test
 	public void testAddNewContact(){
@@ -505,7 +511,7 @@ public class ContactManagerTest{
 		try{
 			ObjectInputStream in = new ObjectInputStream(new FileInputStream(testFile));
 			contactSetTest = (HashSet<Contact>) in.readObject();
-			meetingSetTest = (TreeSet<MeetingImpl>) in.readObject();
+			//meetingSetTest = (TreeSet<MeetingImpl>) in.readObject();
 			in.close();
 		}
 		catch (IOException e){
