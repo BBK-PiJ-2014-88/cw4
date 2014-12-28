@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.io.*;
 
 public class ContactManagerImpl implements ContactManager{
-	private Set<ContactImpl> contactSet = new HashSet<ContactImpl>();
+	private Set<Contact> contactSet = new HashSet<Contact>();
 	private Set<MeetingImpl> meetingSet = new TreeSet<MeetingImpl>(new MeetingComparator());
 	private int uniqueContactIdGenerator = 1;
 	private int uniqueMeetingIdGenerator = 1;
@@ -21,7 +21,7 @@ public class ContactManagerImpl implements ContactManager{
 		if (dataFile.exists()){
 			try{
 				ObjectInputStream in = new ObjectInputStream(new FileInputStream(dataFile));
-				contactSet = (HashSet<ContactImpl>) in.readObject();
+				contactSet = (HashSet<Contact>) in.readObject();
 			//	meetingSetTemp = (TreeSet<MeetingImpl>) in.readObject();
 			//	meetingSet.addAll(meetingSetTemp);
 				in.close();
@@ -206,7 +206,7 @@ public class ContactManagerImpl implements ContactManager{
 		Set<Contact> contactsWithInputtedIds = new HashSet<Contact>();
 		for (int idNum: ids){
 			boolean contactFound = false;
-			for (ContactImpl contact : contactSet){
+			for (Contact contact : contactSet){
 				if (contact.getId() == idNum){
 					contactsWithInputtedIds.add(contact);
 					contactFound = true;
@@ -224,7 +224,7 @@ public class ContactManagerImpl implements ContactManager{
 			throw new NullPointerException("name must not be null");
 		}
 		Set<Contact> contactsWithStringInName = new HashSet<Contact>();
-		for (ContactImpl contact : this.contactSet){
+		for (Contact contact : this.contactSet){
 			if (contact.getName().indexOf(name) != -1){
 				contactsWithStringInName.add(contact);
 			}
