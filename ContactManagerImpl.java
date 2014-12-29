@@ -10,20 +10,20 @@ import java.io.*;
 
 public class ContactManagerImpl implements ContactManager{
 	private Set<Contact> contactSet = new HashSet<Contact>();
-	private Set<MeetingImpl> meetingSet = new TreeSet<MeetingImpl>(new MeetingComparator());
+	private Set<Meeting> meetingSet = new TreeSet<Meeting>(new MeetingComparator());
 	private int uniqueContactIdGenerator = 1;
 	private int uniqueMeetingIdGenerator = 1;
 	private String fileName = "contacts.txt";
 
 	public void ContactManagerImpl(){
 		File dataFile = new File(fileName);
-		Set<MeetingImpl> meetingSetTemp = new TreeSet<MeetingImpl>();
+		Set<MeetingImpl> meetingSetTemp = new HashSet<MeetingImpl>();
 		if (dataFile.exists()){
 			try{
 				ObjectInputStream in = new ObjectInputStream(new FileInputStream(dataFile));
 				contactSet = (HashSet<Contact>) in.readObject();
-				meetingSet = (TreeSet<MeetingImpl>) in.readObject();
-			//	meetingSet.addAll(meetingSetTemp);
+				meetingSet = (HashSet<Meeting>) in.readObject();
+				meetingSet.addAll(meetingSetTemp);
 				in.close();
 			}
 			catch (IOException e){
@@ -35,19 +35,15 @@ public class ContactManagerImpl implements ContactManager{
 		}
 	}
 
-	public static void main(String[] args){
-		ContactManagerImpl contactManagerTest = new ContactManagerImpl();
-	}
-
 	public int addFutureMeeting(Set<Contact> contacts, Calendar date){
 		if (! doContactsAllExist(contacts)){
-			throw new IllegalArgumentException("Contact not known");
+			throw new IllegalArgumentException("ContactSet contains unknown contact");
 		}
 		if (new GregorianCalendar().getInstance().after(date)){
 			throw new IllegalArgumentException("Date must be in future");
 		}
 		else{
-			MeetingImpl newFutureMeeting = new FutureMeetingImpl(contacts, date, uniqueMeetingIdGenerator);
+			Meeting newFutureMeeting = new MeetingImpl(contacts, date, uniqueMeetingIdGenerator);
 			uniqueMeetingIdGenerator++;
 			meetingSet.add(newFutureMeeting);
 			return newFutureMeeting.getId();
@@ -56,29 +52,32 @@ public class ContactManagerImpl implements ContactManager{
 
 	public boolean doContactsAllExist(Set<Contact> contacts){  //checks if contacts are unknown/non-existent
 		for (Contact cont: contacts){
-			if (!containsContact((ContactImpl)cont)){
+			if (!contactSet.contains(cont)){
 				return false;
 			}
 		}
 		return true;
 	}
 
+	public boolean containsContact(ContactImpl con){
+		return this.contactSet.contains(con);
+	}
 
 	public PastMeeting getPastMeeting(int id){
-		for (MeetingImpl meeting: meetingSet){
+		for (Meeting meeting: meetingSet){
 			if (meeting.getId() == id){
 				if (!isMeetingInPast(meeting)){
 					throw new IllegalArgumentException("Requested Meeting must have already taken place");
 				}
 				else{
-					return (PastMeetingImpl) meeting;
+					return (PastMeeting) meeting;
 				}
 			}
 		}
 		return null;
 	}
 
-	public boolean isMeetingInPast(MeetingImpl meeting){
+	public boolean isMeetingInPast(Meeting meeting){
 		Calendar currentTime = Calendar.getInstance();
 		if (meeting.getDate().before(currentTime)){
 			return true;
@@ -89,13 +88,13 @@ public class ContactManagerImpl implements ContactManager{
 	}
 
 	public FutureMeeting getFutureMeeting(int id){
-		for (MeetingImpl meeting: meetingSet){
+		for (Meeting meeting: meetingSet){
 			if (meeting.getId() == id){
 				if (isMeetingInPast(meeting)){
 					throw new IllegalArgumentException("Requested Meeting must be in future");
 				}
 				else{
-					return (FutureMeetingImpl) meeting;
+					return (FutureMeeting) meeting;
 				}
 			}
 		}
@@ -103,34 +102,29 @@ public class ContactManagerImpl implements ContactManager{
 
 	}
 	public Meeting getMeeting(int id){
-		for (MeetingImpl meeting: meetingSet){
+		for (Meeting meeting: meetingSet){
 			if (meeting.getId() == id){
 					return meeting;
 				}
 		}
 		return null;
 	}
+
 	public List<Meeting> getFutureMeetingList(Contact contact){
+		if (!contactSet.contains(contact)){
+			throw new IllegalArgumentException("Contact not found");
+		}
 		List<Meeting> meetingsWithContact = new ArrayList<Meeting>();
-		boolean contactFound = false;
-		for (MeetingImpl meeting : meetingSet){
-			for (Contact meetingContact : meeting.getContacts()){
-				if (meetingContact.equals(contact)){
-					contactFound = true;
-					if(!isMeetingInPast(meeting)){
+		for (Meeting meeting : meetingSet){
+				if (meeting.getContacts().contains(contact) && (!isMeetingInPast(meeting))) {
 						meetingsWithContact.add(meeting);
-					}
 				}
-			}
 		}
-		if (contactFound){
 			return meetingsWithContact;
-		}
-		throw new IllegalArgumentException("Contact not found");
 	}
 	public List<Meeting> getFutureMeetingList(Calendar date){
 		List<Meeting> meetingsOnDate = new ArrayList<Meeting>();
-		for (MeetingImpl meeting : meetingSet){
+		for (Meeting meeting : meetingSet){
 			if (isSameDate(meeting.getDate(), date)){
 				meetingsOnDate.add(meeting);
 			}
@@ -151,7 +145,7 @@ public class ContactManagerImpl implements ContactManager{
 		if (!containsContact((ContactImpl)contact)){
 			throw new IllegalArgumentException("Contact does not exist");
 		}
-		for (MeetingImpl meeting : meetingSet){
+		for (Meeting meeting : meetingSet){
 			for (Contact contact2 : meeting.getContacts()){
 				if (contact.equals(contact2) && isMeetingInPast(meeting)){
 					pastMeetingsWithContact.add((PastMeeting)meeting);
@@ -181,7 +175,7 @@ public class ContactManagerImpl implements ContactManager{
 		if (text == null){
 			throw new NullPointerException("Notes must not be null");
 		}
-		for (MeetingImpl meeting : meetingSet){
+		for (Meeting meeting : meetingSet){
 			if (meeting.getId() == id){
 				if (new GregorianCalendar().getInstance().before(meeting.getDate())){
 					throw new IllegalArgumentException("Meeting must not be in the future");
@@ -244,12 +238,8 @@ public class ContactManagerImpl implements ContactManager{
 		}
 	}
 
-	public boolean containsContact(ContactImpl con){  //used this method for junit testing
-		return this.contactSet.contains(con);
-	}
-
 	public void updateMeetingList(){
-		for (MeetingImpl meeting: meetingSet){
+		for (Meeting meeting: meetingSet){
 			if ((isMeetingInPast(meeting)) && (meeting.getClass() == FutureMeetingImpl.class)){
 				PastMeetingImpl pastMeetingConverted = new PastMeetingImpl(meeting.getContacts(), meeting.getDate(), meeting.getId());
 				meetingSet.remove(meeting);
@@ -258,9 +248,9 @@ public class ContactManagerImpl implements ContactManager{
 		}
 	}
 
-	private class MeetingComparator implements Comparator<MeetingImpl>, Serializable {
+	private class MeetingComparator implements Comparator<Meeting>, Serializable {
 		@Override
-		public int compare(MeetingImpl meeting1, MeetingImpl meeting2){
+		public int compare(Meeting meeting1, Meeting meeting2){
 			if (meeting1.getDate().before(meeting2.getDate())){
 				return -1;
 			}
