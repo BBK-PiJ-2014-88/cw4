@@ -4,7 +4,7 @@ import java.util.GregorianCalendar;
 import java.util.HashSet;
 import java.io.Serializable;
 
-public class MeetingImpl implements Meeting, Serializable{
+public class MeetingImpl implements Meeting, Serializable, Comparable{
 	private Set<Contact> contactSet = new HashSet<Contact>();
 	private Calendar meetingDate = new GregorianCalendar();
 	private int meetingId;
@@ -46,6 +46,20 @@ public class MeetingImpl implements Meeting, Serializable{
 		}
 		else{
 			return false;
+		}
+	}
+
+	@Override
+	public int compareTo(Object other){
+		MeetingImpl meeting2 = (MeetingImpl) other;
+		if (this.getDate().before(meeting2.getDate())){
+			return -1;
+		}
+		else if (this.getDate().after(meeting2.getDate())){
+			return 1;
+		}
+		else{
+			return 0;
 		}
 	}
 

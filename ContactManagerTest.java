@@ -491,7 +491,7 @@ public class ContactManagerTest{
 	//input/output tests start here
 
 	@Test
-	public void testing(){
+	public void inputOutputContactSetTest(){
 		Calendar dateInPast = new GregorianCalendar(2010,8,12);
 		Calendar dateInFuture = new GregorianCalendar(2016,9,10);
 		ContactManagerImpl contactManagerTester2 = new ContactManagerImpl();
@@ -511,7 +511,7 @@ public class ContactManagerTest{
 		try{
 			ObjectInputStream in = new ObjectInputStream(new FileInputStream(testFile));
 			contactSetTest = (HashSet<Contact>) in.readObject();
-			//meetingSetTest = (TreeSet<MeetingImpl>) in.readObject();
+			meetingSetTest = (TreeSet<MeetingImpl>) in.readObject();
 			in.close();
 		}
 		catch (IOException e){
@@ -523,5 +523,38 @@ public class ContactManagerTest{
 		Set<Contact> expected = contactSetInputOutput;
 		Set<Contact> output = contactSetTest;
 		assertEquals(expected, output);
+	}
+
+	@Test
+	public void inputOutputMeetingSetTest(){
+		Calendar dateInPast = new GregorianCalendar(2010,8,12);
+		Calendar dateInFuture = new GregorianCalendar(2016,9,10);
+		ContactManagerImpl contactManagerTester2 = new ContactManagerImpl();
+		contactManagerTester2.addNewContact("Daniel", "Daniel notes");
+		contactManagerTester2.addNewContact("Harold", "Harold notes");
+		contactManagerTester2.addNewContact("Anna", "Anna notes");
+		Set<Contact> contactSetInputOutput = new HashSet<Contact>();
+		contactSetInputOutput.add(new ContactImpl("Daniel", "Daniel notes",1));
+		contactSetInputOutput.add(new ContactImpl("Harold", "Harold notes",2));
+		contactSetInputOutput.add(new ContactImpl("Anna", "Anna notes",3));
+		//contactManagerTester2.addNewPastMeeting(contactSetInputOutput, dateInPast, "Past Meeting");
+		contactManagerTester2.addFutureMeeting(contactSetInputOutput, dateInFuture);
+		contactManagerTester2.flush();
+		File testFile = new File("contacts.txt");
+		Set<Contact> contactSetTest = new HashSet<Contact>();
+		Set<MeetingImpl> meetingSetTest = new TreeSet<MeetingImpl>();
+		try{
+			ObjectInputStream in = new ObjectInputStream(new FileInputStream(testFile));
+			contactSetTest = (HashSet<Contact>) in.readObject();
+			meetingSetTest = (TreeSet<MeetingImpl>) in.readObject();
+			in.close();
+		}
+		catch (IOException e){
+			e.printStackTrace();
+		}
+		catch (ClassNotFoundException e){
+			e.printStackTrace();
+		}
+		assertTrue(meetingSetTest.contains(new MeetingImpl(contactSetInputOutput, dateInFuture, 1)));
 	}
 }

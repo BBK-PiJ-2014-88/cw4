@@ -22,7 +22,7 @@ public class ContactManagerImpl implements ContactManager{
 			try{
 				ObjectInputStream in = new ObjectInputStream(new FileInputStream(dataFile));
 				contactSet = (HashSet<Contact>) in.readObject();
-			//	meetingSetTemp = (TreeSet<MeetingImpl>) in.readObject();
+				meetingSet = (TreeSet<MeetingImpl>) in.readObject();
 			//	meetingSet.addAll(meetingSetTemp);
 				in.close();
 			}
@@ -236,7 +236,7 @@ public class ContactManagerImpl implements ContactManager{
 		try{
 			ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(dataFile));
 			out.writeObject(contactSet);
-			//out.writeObject(meetingSet);
+			out.writeObject(meetingSet);
 			out.close();
 		}
 		catch (IOException e){
@@ -258,7 +258,7 @@ public class ContactManagerImpl implements ContactManager{
 		}
 	}
 
-	private class MeetingComparator implements Comparator<MeetingImpl>, Serializable{
+	private class MeetingComparator implements Comparator<MeetingImpl>, Serializable {
 		@Override
 		public int compare(MeetingImpl meeting1, MeetingImpl meeting2){
 			if (meeting1.getDate().before(meeting2.getDate())){
