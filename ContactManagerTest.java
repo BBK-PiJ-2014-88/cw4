@@ -43,25 +43,16 @@ public class ContactManagerTest{
 
 	@After
 	public void cleanUp(){
-		try{
-			File file = new File("contacts.txt");
-			file.delete();
-		}
-		catch (Exception e){
-			System.out.println("File cannot be deleted");
-			e.printStackTrace();
-		}
-	}
-
-	@AfterClass
-	public static void cleanUpFinal(){
-		try{
-			File file = new File("contacts.txt");
-			file.delete();
-		}
-		catch (Exception e){
-			System.out.println("File cannot be deleted");
-			e.printStackTrace();
+		File file = new File("contacts.txt");
+		if (file.exists()){
+			try{
+				file.delete();
+				System.out.println("File deleted");
+			}
+			catch (Exception e){
+				System.out.println("File cannot be deleted");
+				e.printStackTrace();
+			}
 		}
 	}
 
