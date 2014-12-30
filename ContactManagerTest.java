@@ -43,14 +43,26 @@ public class ContactManagerTest{
 
 	@After
 	public void cleanUp(){
-		File file = new File("contacts.txt");
-		file.delete();
+		try{
+			File file = new File("contacts.txt");
+			file.delete();
+		}
+		catch (Exception e){
+			System.out.println("File cannot be deleted");
+			e.printStackTrace();
+		}
 	}
 
 	@AfterClass
 	public static void cleanUpFinal(){
-		File file = new File("contacts.txt");
-		file.delete();
+		try{
+			File file = new File("contacts.txt");
+			file.delete();
+		}
+		catch (Exception e){
+			System.out.println("File cannot be deleted");
+			e.printStackTrace();
+		}
 	}
 
 	//addNewContact() tests start here
@@ -510,8 +522,8 @@ public class ContactManagerTest{
 		Set<MeetingImpl> meetingSetTest = new TreeSet<MeetingImpl>();
 		try{
 			ObjectInputStream in = new ObjectInputStream(new FileInputStream(testFile));
-			contactSetTest = (HashSet<Contact>) in.readObject();
-			meetingSetTest = (TreeSet<MeetingImpl>) in.readObject();
+			contactSetTest = (HashSet) in.readObject();
+			meetingSetTest = (TreeSet) in.readObject();
 			in.close();
 		}
 		catch (IOException e){
@@ -545,8 +557,8 @@ public class ContactManagerTest{
 		Set<MeetingImpl> meetingSetTest = new TreeSet<MeetingImpl>();
 		try{
 			ObjectInputStream in = new ObjectInputStream(new FileInputStream(testFile));
-			contactSetTest = (HashSet<Contact>) in.readObject();
-			meetingSetTest = (TreeSet<MeetingImpl>) in.readObject();
+			contactSetTest = (HashSet) in.readObject();
+			meetingSetTest = (TreeSet) in.readObject();
 			in.close();
 		}
 		catch (IOException e){
@@ -555,6 +567,8 @@ public class ContactManagerTest{
 		catch (ClassNotFoundException e){
 			e.printStackTrace();
 		}
-		assertTrue(meetingSetTest.contains(new MeetingImpl(contactSetInputOutput, dateInFuture, 1)));
+		boolean output = meetingSetTest.contains(new FutureMeetingImpl(contactSetInputOutput, dateInFuture, 1));
+		boolean expected = true;
+		assertEquals(expected, output);
 	}
 }

@@ -8,9 +8,9 @@ import java.util.GregorianCalendar;
 import java.util.ArrayList;
 import java.io.*;
 
-public class ContactManagerImpl implements ContactManager{
+public class ContactManagerImpl implements ContactManager, Serializable{
 	private Set<Contact> contactSet = new HashSet<Contact>();
-	private Set<Meeting> meetingSet = new TreeSet<Meeting>(new MeetingComparator());
+	private Set<MeetingImpl> meetingSet = new TreeSet<MeetingImpl>(new MeetingComparator());
 	private int uniqueContactIdGenerator = 1;
 	private int uniqueMeetingIdGenerator = 1;
 	private String fileName = "contacts.txt";
@@ -21,10 +21,12 @@ public class ContactManagerImpl implements ContactManager{
 		if (dataFile.exists()){
 			try{
 				ObjectInputStream in = new ObjectInputStream(new FileInputStream(dataFile));
-				contactSet = (HashSet<Contact>) in.readObject();
-				meetingSet = (HashSet<Meeting>) in.readObject();
-				meetingSet.addAll(meetingSetTemp);
+				contactSet = (HashSet) in.readObject();
+				System.out.println("Done contact read");
+				meetingSet = (TreeSet) in.readObject();
+				System.out.println("Done meeting read");
 				in.close();
+				System.out.println("closed");
 			}
 			catch (IOException e){
 				e.printStackTrace();
@@ -32,6 +34,7 @@ public class ContactManagerImpl implements ContactManager{
 			catch (ClassNotFoundException e){
 				e.printStackTrace();
 			}
+			meetingSet.addAll(meetingSetTemp);
 		}
 	}
 
@@ -43,7 +46,7 @@ public class ContactManagerImpl implements ContactManager{
 			throw new IllegalArgumentException("Date must be in future");
 		}
 		else{
-			Meeting newFutureMeeting = new MeetingImpl(contacts, date, uniqueMeetingIdGenerator);
+			FutureMeetingImpl newFutureMeeting = new FutureMeetingImpl(contacts, date, uniqueMeetingIdGenerator);
 			uniqueMeetingIdGenerator++;
 			meetingSet.add(newFutureMeeting);
 			return newFutureMeeting.getId();
@@ -175,11 +178,12 @@ public class ContactManagerImpl implements ContactManager{
 		if (text == null){
 			throw new NullPointerException("Notes must not be null");
 		}
-		for (Meeting meeting : meetingSet){
+		for (MeetingImpl meeting : meetingSet){
 			if (meeting.getId() == id){
 				if (new GregorianCalendar().getInstance().before(meeting.getDate())){
 					throw new IllegalArgumentException("Meeting must not be in the future");
 				}
+
 				meeting.addNotes(text);
 				return;
 			}
@@ -219,7 +223,7 @@ public class ContactManagerImpl implements ContactManager{
 		}
 		Set<Contact> contactsWithStringInName = new HashSet<Contact>();
 		for (Contact contact : this.contactSet){
-			if (contact.getName().indexOf(name) != -1){
+			if (contact.getName().indexOf(name) != -1){    //this means 'name' is in the name of the contact
 				contactsWithStringInName.add(contact);
 			}
 		}
@@ -230,8 +234,11 @@ public class ContactManagerImpl implements ContactManager{
 		try{
 			ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(dataFile));
 			out.writeObject(contactSet);
+			System.out.println("Done contact write");
 			out.writeObject(meetingSet);
+			System.out.println("Done meeting write");
 			out.close();
+			System.out.println("out closed successfully");
 		}
 		catch (IOException e){
 			e.printStackTrace();
