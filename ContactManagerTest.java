@@ -562,4 +562,27 @@ public class ContactManagerTest{
 		boolean expected = true;
 		assertEquals(expected, output);
 	}
+
+	@Test
+	public void inputOutputNewContactManagerCorrectlyReadsFromFile(){
+		Calendar dateInPast = new GregorianCalendar(2010,8,12);
+		Calendar dateInFuture = new GregorianCalendar(2016,9,10);
+		ContactManagerImpl contactManagerTester2 = new ContactManagerImpl();
+		contactManagerTester2.addNewContact("Daniel", "Daniel notes");
+		contactManagerTester2.addNewContact("Harold", "Harold notes");
+		contactManagerTester2.addNewContact("Anna", "Anna notes");
+		Set<Contact> contactSetInputOutput = new HashSet<Contact>();
+		contactSetInputOutput.add(new ContactImpl("Daniel", "Daniel notes",1));
+		contactSetInputOutput.add(new ContactImpl("Harold", "Harold notes",2));
+		contactSetInputOutput.add(new ContactImpl("Anna", "Anna notes",3));
+		//contactManagerTester2.addNewPastMeeting(contactSetInputOutput, dateInPast, "Past Meeting");
+		contactManagerTester2.addFutureMeeting(contactSetInputOutput, dateInFuture);
+		System.out.println("flushed to file");
+		contactManagerTester2.flush();
+		System.out.println("Should input data now");
+		ContactManagerImpl contactManagerTester4 = new ContactManagerImpl();
+		FutureMeeting expected = new FutureMeetingImpl(contactSetInputOutput, dateInFuture, 1);
+		FutureMeeting output = contactManagerTester4.getFutureMeeting(1);
+		assertEquals(expected, output);
+	}
 }

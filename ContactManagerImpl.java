@@ -15,8 +15,8 @@ public class ContactManagerImpl implements ContactManager, Serializable{
 	private int uniqueMeetingIdGenerator = 1;
 	private String fileName = "contacts.txt";
 
-	public void ContactManagerImpl(){
-		File dataFile = new File(fileName);
+	public ContactManagerImpl(){
+		File dataFile = new File("contacts.txt");
 		Set<MeetingImpl> meetingSetTemp = new HashSet<MeetingImpl>();
 		if (dataFile.exists()){
 			try{
