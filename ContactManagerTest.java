@@ -423,7 +423,7 @@ public class ContactManagerTest{
 		contactManagerTester3.addFutureMeeting(contactSet, sameDayDifferentTime1); // returned list should be in order
 		contactManagerTester3.addFutureMeeting(contactSet, sameDayDifferentTime4);
 		contactManagerTester3.addFutureMeeting(contactSet, sameDayDifferentTime2);
-		contactManagerTester3.addNewPastMeeting(contactSet, pastDate, "notes"); //different date, this meeting should not be in output
+		contactManagerTester3.addNewPastMeeting(contactSet, pastDate, "notes"); // past date, this meeting should not be in output
 		List<Meeting> ChronologicallySortedMeetingList = new ArrayList<Meeting>();
 		ChronologicallySortedMeetingList.add(new FutureMeetingImpl(contactSet, sameDayDifferentTime1, 2));
 		ChronologicallySortedMeetingList.add(new FutureMeetingImpl(contactSet, sameDayDifferentTime2, 4));
@@ -434,7 +434,7 @@ public class ContactManagerTest{
 		assertEquals(expected, output);
 	}
 
-	@Test //Testing that this method can also correctly return a meeting with a future date
+	@Test //Testing that this method can also correctly return a single meeting with a future date
 	public void testGetFutureMeetingListMeetingWithFutureDate(){
 		contactManagerTester3.addFutureMeeting(contactSet, futureDate2);
 		List<Meeting> listWithFutureDate = new ArrayList<Meeting>();
@@ -444,7 +444,19 @@ public class ContactManagerTest{
 		assertEquals(expected, output);
 	}
 
-//getPastMeetingList(Contact) tests start here
+	@Test //Testing that this method can also correctly return a single meeting with a past date
+	public void testGetFutureMeetingListMeetingWithPastDate(){
+		contactManagerTester3.addNewPastMeeting(contactSet, pastDate2, "notes");
+		List<Meeting> listWithPastDate = new ArrayList<Meeting>();
+		PastMeetingImpl pastMeeting1 = new PastMeetingImpl(contactSet, pastDate2, 1);
+		pastMeeting1.addNotes("notes");
+		listWithPastDate.add(pastMeeting1);
+		List<Meeting> expected = listWithPastDate;
+		List<Meeting> output = contactManagerTester3.getFutureMeetingList(pastDate2);
+		assertEquals(expected, output);
+	}
+
+	//getPastMeetingList(Contact) tests start here
 
 	@Test (expected = IllegalArgumentException.class)
 	public void testGetPastMeetingListUnknownContact(){ //Inserting unknown contact as parameter to getPastMeetingList(Contact contact)
