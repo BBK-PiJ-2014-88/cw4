@@ -51,6 +51,12 @@ public class MeetingImpl implements Meeting, Serializable, Comparable{
 
 	@Override
 	public int compareTo(Object other){
+		if (other == null){
+			throw new NullPointerException();
+		}
+		if (this.getClass() != other.getClass()){
+			throw new ClassCastException();
+		}
 		MeetingImpl meeting2 = (MeetingImpl) other;
 		if (this.getDate().before(meeting2.getDate())){
 			return -1;

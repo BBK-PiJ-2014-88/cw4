@@ -29,8 +29,8 @@ public class ContactManagerTest{
 	public void buildUp(){
 		contactManagerTester1 = new ContactManagerImpl();
 		contactManagerTester3 = new ContactManagerImpl();
-		contacts = new HashSet<Contact>();
-		contactSet = new HashSet<Contact>();
+		contacts = new HashSet<Contact>();   //empty contact set
+		contactSet = new HashSet<Contact>(); // contact set with 3 contacts added
 		meetings = new TreeSet<Meeting>();
 		//Adding 3 contacts to ContactManager3 so exception from unknown_contact is not thrown when contactSet is added with these contacts
 		contactManagerTester3.addNewContact("Daniel", "Daniel notes");
@@ -58,7 +58,7 @@ public class ContactManagerTest{
 
 	//addNewContact() tests start here
 	@Test
-	public void testAddNewContact(){
+	public void testAddNewContact(){ //Add a contact to contactManager. If added correctly, should be able to get it with getContacts(contact id)
 		contactManagerTester1.addNewContact("Simon", "These are tester notes");
 		contacts.add(new ContactImpl("Simon", "These are tester notes", 1));
 		Set<Contact> expected = contacts;
