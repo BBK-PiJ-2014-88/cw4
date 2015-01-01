@@ -13,7 +13,6 @@ public class ContactManagerImpl implements ContactManager, Serializable{
 	private Set<MeetingImpl> meetingSet = new TreeSet<MeetingImpl>();
 	private int uniqueContactIdGenerator = 1;
 	private int uniqueMeetingIdGenerator = 1;
-	private String fileName = "contacts.txt";
 
 	public ContactManagerImpl(){
 		File dataFile = new File("contacts.txt");
@@ -230,7 +229,7 @@ public class ContactManagerImpl implements ContactManager, Serializable{
 		return contactsWithStringInName;
 	}
 	public void flush(){
-		File dataFile = new File(fileName);
+		File dataFile = new File("contacts.txt");
 		try{
 			ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(dataFile));
 			out.writeObject(contactSet);
