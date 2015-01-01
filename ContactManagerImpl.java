@@ -67,7 +67,7 @@ public class ContactManagerImpl implements ContactManager, Serializable{
 		return true;
 	}
 
-	public boolean containsContact(ContactImpl con){
+	public boolean containsContact(Contact con){
 		return this.contactSet.contains(con);
 	}
 
@@ -121,7 +121,7 @@ public class ContactManagerImpl implements ContactManager, Serializable{
 	}
 
 	public List<Meeting> getFutureMeetingList(Contact contact){
-		updateMeetingList();
+		updateMeetingList(); ////Makes sure meetings in meetingSet have the correct class.
 		if (!contactSet.contains(contact)){
 			throw new IllegalArgumentException("Contact not found");
 		}
@@ -133,6 +133,7 @@ public class ContactManagerImpl implements ContactManager, Serializable{
 		}
 		return meetingsWithContact;
 	}
+
 	public List<Meeting> getFutureMeetingList(Calendar date){
 		updateMeetingList(); //Makes sure meetings in meetingSet have the correct class.
 		List<Meeting> meetingsOnDate = new ArrayList<Meeting>();
@@ -162,7 +163,7 @@ public class ContactManagerImpl implements ContactManager, Serializable{
 
 	public List<PastMeeting> getPastMeetingList(Contact contact){
 		List<PastMeeting> pastMeetingsWithContact = new ArrayList<PastMeeting>();
-		if (!containsContact((ContactImpl)contact)){
+		if (!contactSet.contains(contact)){
 			throw new IllegalArgumentException("Contact does not exist");
 		}
 		for (Meeting meeting : meetingSet){
