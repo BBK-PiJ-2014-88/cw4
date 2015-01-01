@@ -97,10 +97,11 @@ public class ContactManagerImpl implements ContactManager, Serializable{
 	}
 
 	public FutureMeeting getFutureMeeting(int id){
+		updateMeetingList(); //any meetings which were added as past meetings with addNewPastMeeting but had future dates are now changed into FutureMeetings
 		for (Meeting meeting: meetingSet){
 			if (meeting.getId() == id){
 				if (isMeetingInPast(meeting)){
-					throw new IllegalArgumentException("Requested Meeting must be in future");
+					throw new IllegalArgumentException("Meeting not in future");
 				}
 				else{
 					return (FutureMeeting) meeting;
@@ -113,25 +114,27 @@ public class ContactManagerImpl implements ContactManager, Serializable{
 	public Meeting getMeeting(int id){
 		for (Meeting meeting: meetingSet){
 			if (meeting.getId() == id){
-					return meeting;
+					return (Meeting) meeting;
 				}
 		}
 		return null;
 	}
 
 	public List<Meeting> getFutureMeetingList(Contact contact){
+		updateMeetingList();
 		if (!contactSet.contains(contact)){
 			throw new IllegalArgumentException("Contact not found");
 		}
 		List<Meeting> meetingsWithContact = new ArrayList<Meeting>();
 		for (Meeting meeting : meetingSet){
 				if (meeting.getContacts().contains(contact) && (!isMeetingInPast(meeting))) {
-						meetingsWithContact.add(meeting);
+						meetingsWithContact.add(meeting); //meetings already chronologically sorted in TreeSet, no need to sort the list here
 				}
 		}
-			return meetingsWithContact;
+		return meetingsWithContact;
 	}
 	public List<Meeting> getFutureMeetingList(Calendar date){
+		updateMeetingList(); //Makes sure meetings in meetingSet have the correct class.
 		List<Meeting> meetingsOnDate = new ArrayList<Meeting>();
 		for (Meeting meeting : meetingSet){
 			if (isSameDate(meeting.getDate(), date)){
@@ -141,6 +144,14 @@ public class ContactManagerImpl implements ContactManager, Serializable{
 		return meetingsOnDate;
 	}
 
+	/**
+	*
+	* A method to determine whether two Calendar objects occur on the same date
+	* @ param The first calendar object
+	* @ param The second calendar object
+	* @ return a boolean value. True if the two calendars occur on the same date. False otherwise.
+	*
+	*/
 	public boolean isSameDate(Calendar date1, Calendar date2){
 		if (date1.get(Calendar.YEAR) == date2.get(Calendar.YEAR) && date1.get(Calendar.MONTH) == date2.get(Calendar.MONTH)
 		&& date1.get(Calendar.DAY_OF_MONTH) == date2.get(Calendar.DAY_OF_MONTH)){
@@ -189,7 +200,6 @@ public class ContactManagerImpl implements ContactManager, Serializable{
 				if (new GregorianCalendar().getInstance().before(meeting.getDate())){
 					throw new IllegalArgumentException("Meeting must not be in the future");
 				}
-
 				meeting.addNotes(text);
 				return;
 			}
@@ -263,7 +273,8 @@ public class ContactManagerImpl implements ContactManager, Serializable{
 
 	/**
 	*
-	*
+	* Checks the Meetings stored in the Contact Manager. If a meeting has a past date but is stored as a FutureMeeting,
+	* it is converted to a PastMeeting. If a meeting has a future date but is stored as PastMeeting, it is converted to a FutureMeeting.
 	*
 	*/
 	public void updateMeetingList(){

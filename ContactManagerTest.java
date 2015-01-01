@@ -28,6 +28,7 @@ public class ContactManagerTest{
 	@Before
 	public void buildUp(){
 		contactManagerTester1 = new ContactManagerImpl();
+		contactManagerTester2 = new ContactManagerImpl();
 		contactManagerTester3 = new ContactManagerImpl();
 		contacts = new HashSet<Contact>();   //empty contact set
 		contactSet = new HashSet<Contact>(); // contact set with 3 contacts added
@@ -251,8 +252,8 @@ public class ContactManagerTest{
 	public void testGetPastMeetingFutureDate(){ //input ID for meeting hapenning in future
 		contactManagerTester3.addNewPastMeeting(contactSet, pastDate, "notes"); //meeting id 1
 		contactManagerTester3.addNewPastMeeting(contactSet, pastDate, "notes"); 	//meeting id 2
-		contactManagerTester3.addNewPastMeeting(contactSet, futureDate, "notes");	//has future date, should throw exception
-		contactManagerTester3.getPastMeeting(3);
+		contactManagerTester3.addNewPastMeeting(contactSet, futureDate, "notes");	//has future date, should throw exception when this method tries
+		contactManagerTester3.getPastMeeting(3);									//to call it
 	}
 
 	@Test
@@ -283,7 +284,7 @@ public class ContactManagerTest{
 	public void testGetFutureMeetingPastDate(){ //input ID for meeting hapenning in past
 		contactManagerTester3.addFutureMeeting(contactSet, futureDate); //meeting id 1
 		contactManagerTester3.addFutureMeeting(contactSet, futureDate2); 	//meeting id 2
-		contactManagerTester3.addFutureMeeting(contactSet, pastDate);	//has past date, should throw exception
+		contactManagerTester3.addNewPastMeeting(contactSet, pastDate, "");	//has past date, should throw exception
 		contactManagerTester3.getFutureMeeting(3);
 	}
 
@@ -365,7 +366,7 @@ public class ContactManagerTest{
 		contactManagerTester3.addNewContact("Takahito", "Japanese guy");
 		contactManagerTester3.addNewContact("Smith", "Smith notes");
 		contactSet2.add(new ContactImpl("Takahito", "Japanese guy",4));  //3 contacts have already been added to this contactManager at buildup()
-		contactSet2.add(new ContactImpl("Smith", "Smith notes",5));
+		contactSet2.add(new ContactImpl("Smith", "Smith notes",5));	     //so id will be 4 and 5
 		contactManagerTester3.addNewPastMeeting(contactSet, pastDate, "notes");
 		contactManagerTester3.addNewPastMeeting(contactSet, pastDate, "notes");
 		contactManagerTester3.addFutureMeeting(contactSet2, futureDate2); //meeting id 3.
@@ -399,7 +400,7 @@ public class ContactManagerTest{
 		assertEquals(expected, output);
 	}
 
-//getFutureMeetingList(Date) tests start here
+	//getFutureMeetingList(Date) tests start here
 
 	@Test //passing a date as parameter on which no meetings took place
 	public void testGetFutureMeetingListDateWithNoMeetings(){
