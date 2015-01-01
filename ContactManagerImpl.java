@@ -72,10 +72,11 @@ public class ContactManagerImpl implements ContactManager, Serializable{
 	}
 
 	public PastMeeting getPastMeeting(int id){
+		updateMeetingList();  //any meetings which were added as future meetings but have now taken place are converted into past meetings
 		for (Meeting meeting: meetingSet){
 			if (meeting.getId() == id){
 				if (!isMeetingInPast(meeting)){
-					throw new IllegalArgumentException("Requested Meeting must have already taken place");
+					throw new IllegalArgumentException("Meeting is not a past Meeting");
 				}
 				else{
 					return (PastMeeting) meeting;
@@ -260,12 +261,22 @@ public class ContactManagerImpl implements ContactManager, Serializable{
 		}
 	}
 
+	/**
+	*
+	*
+	*
+	*/
 	public void updateMeetingList(){
 		for (Meeting meeting: meetingSet){
 			if ((isMeetingInPast(meeting)) && (meeting.getClass() == FutureMeetingImpl.class)){
 				PastMeetingImpl pastMeetingConverted = new PastMeetingImpl(meeting.getContacts(), meeting.getDate(), meeting.getId());
 				meetingSet.remove(meeting);
 				meetingSet.add(pastMeetingConverted);
+			}
+			else if ((!isMeetingInPast(meeting)) && (meeting.getClass() == PastMeetingImpl.class)){
+				FutureMeetingImpl futureMeetingConverted = new FutureMeetingImpl(meeting.getContacts(), meeting.getDate(), meeting.getId());
+				meetingSet.remove(meeting);
+				meetingSet.add(futureMeetingConverted);
 			}
 		}
 	}
