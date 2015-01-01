@@ -358,7 +358,7 @@ public class ContactManagerTest{
 		contactManagerTester3.addMeetingNotes(1, null);
 	}
 
-// getFutureMeetingList(Contact) starts here
+	// getFutureMeetingList(Contact) starts here
 
 	@Test
 	public void testGetFutureMeetingListCorrect(){ //Correctly returns FutureMeetingList
@@ -506,7 +506,7 @@ public class ContactManagerTest{
 
 	//input/output tests start here
 
-	@Test
+	@Test //adds meetings and contacts to contactManager. Flushes them to file, then uses an InputStream to read them from the file
 	public void inputOutputContactSetTest(){
 		Calendar dateInPast = new GregorianCalendar(2010,8,12);
 		Calendar dateInFuture = new GregorianCalendar(2016,9,10);
@@ -538,10 +538,10 @@ public class ContactManagerTest{
 		}
 		Set<Contact> expected = contactSetInputOutput;
 		Set<Contact> output = contactSetTest;
-		assertEquals(expected, output);
+		assertEquals(expected, output); //test contactSet has been read written correctly to file
 	}
 
-	@Test
+	@Test //adds meetings and contacts to contactManager. Flushes them to file, then uses an InputStream to read them from the file
 	public void inputOutputMeetingSetTest(){
 		Calendar dateInPast = new GregorianCalendar(2010,8,12);
 		Calendar dateInFuture = new GregorianCalendar(2016,9,10);
@@ -553,7 +553,6 @@ public class ContactManagerTest{
 		contactSetInputOutput.add(new ContactImpl("Daniel", "Daniel notes",1));
 		contactSetInputOutput.add(new ContactImpl("Harold", "Harold notes",2));
 		contactSetInputOutput.add(new ContactImpl("Anna", "Anna notes",3));
-		//contactManagerTester2.addNewPastMeeting(contactSetInputOutput, dateInPast, "Past Meeting");
 		contactManagerTester2.addFutureMeeting(contactSetInputOutput, dateInFuture);
 		contactManagerTester2.flush();
 		File testFile = new File("contacts.txt");
@@ -573,10 +572,10 @@ public class ContactManagerTest{
 		}
 		boolean output = meetingSetTest.contains(new FutureMeetingImpl(contactSetInputOutput, dateInFuture, 1));
 		boolean expected = true;
-		assertEquals(expected, output);
+		assertEquals(expected, output);  //test meetingSet has been read written correctly to file
 	}
 
-	@Test
+	@Test //add meetings/contacts to contactManager. flush to file. Open new contactManager. Constructor should read correctly from file.
 	public void inputOutputNewContactManagerCorrectlyReadsFromFile(){
 		Calendar dateInPast = new GregorianCalendar(2010,8,12);
 		Calendar dateInFuture = new GregorianCalendar(2016,9,10);
@@ -588,11 +587,8 @@ public class ContactManagerTest{
 		contactSetInputOutput.add(new ContactImpl("Daniel", "Daniel notes",1));
 		contactSetInputOutput.add(new ContactImpl("Harold", "Harold notes",2));
 		contactSetInputOutput.add(new ContactImpl("Anna", "Anna notes",3));
-		//contactManagerTester2.addNewPastMeeting(contactSetInputOutput, dateInPast, "Past Meeting");
 		contactManagerTester2.addFutureMeeting(contactSetInputOutput, dateInFuture);
-		System.out.println("flushed to file");
 		contactManagerTester2.flush();
-		System.out.println("Should input data now");
 		ContactManagerImpl contactManagerTester4 = new ContactManagerImpl();
 		FutureMeeting expected = new FutureMeetingImpl(contactSetInputOutput, dateInFuture, 1);
 		FutureMeeting output = contactManagerTester4.getFutureMeeting(1);

@@ -248,10 +248,11 @@ public class ContactManagerImpl implements ContactManager, Serializable{
 		return contactsWithStringInName;
 	}
 	public void flush(){
+		updateMeetingList(); //Makes sure meetings in meetingSet have the correct class.
 		File dataFile = new File("contacts.txt");
 		if (dataFile.exists()){
 			try{
-				dataFile.delete();
+				dataFile.delete(); //delete the file so new file can be written from scratch.
 				System.out.println("File deleted");
 			}
 			catch (Exception e){
