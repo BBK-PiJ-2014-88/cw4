@@ -16,7 +16,6 @@ public class ContactManagerTest{
 	private ContactManager contactManagerTester3;   //contactManager with 3 Contact's added
 	private Set<Contact> contacts; //empty contactSet
 	private Set<Contact> contactSet; //contactSet with 3 Contact's added
-	private Set<Meeting> meetings;
 	private Calendar futureDate = new GregorianCalendar(2015,5,12);  //dates that i will use in tests
 	private Calendar futureDate2 = new GregorianCalendar(2015,10,9);
 	private Calendar futureDate3 = new GregorianCalendar(2018,1,12);
@@ -32,7 +31,6 @@ public class ContactManagerTest{
 		contactManagerTester3 = new ContactManagerImpl();
 		contacts = new HashSet<Contact>();   //empty contact set
 		contactSet = new HashSet<Contact>(); // contact set with 3 contacts added
-		meetings = new TreeSet<Meeting>();
 		//Adding 3 contacts to ContactManager3 so exception from unknown_contact is not thrown when contactSet is added with these contacts
 		contactManagerTester3.addNewContact("Daniel", "Daniel notes");
 		contactManagerTester3.addNewContact("Smith", "Smith notes");
@@ -510,7 +508,6 @@ public class ContactManagerTest{
 	public void inputOutputContactSetTest(){
 		Calendar dateInPast = new GregorianCalendar(2010,8,12);
 		Calendar dateInFuture = new GregorianCalendar(2016,9,10);
-		ContactManagerImpl contactManagerTester2 = new ContactManagerImpl();
 		contactManagerTester2.addNewContact("Daniel", "Daniel notes");
 		contactManagerTester2.addNewContact("Harold", "Harold notes");
 		contactManagerTester2.addNewContact("Anna", "Anna notes");

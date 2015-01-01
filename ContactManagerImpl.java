@@ -46,6 +46,7 @@ public class ContactManagerImpl implements ContactManager, Serializable{
 			FutureMeetingImpl newFutureMeeting = new FutureMeetingImpl(contacts, date, uniqueMeetingIdGenerator);
 			uniqueMeetingIdGenerator++;
 			meetingSet.add(newFutureMeeting);
+			flush();
 			return newFutureMeeting.getId();
 		}
 	}
@@ -191,6 +192,7 @@ public class ContactManagerImpl implements ContactManager, Serializable{
 			uniqueMeetingIdGenerator++;
 			newPastMeeting.addNotes(text);
 			this.meetingSet.add(newPastMeeting);
+			flush();
 		}
 	}
 	public void addMeetingNotes(int id, String text){
@@ -202,8 +204,9 @@ public class ContactManagerImpl implements ContactManager, Serializable{
 				if (new GregorianCalendar().getInstance().before(meeting.getDate())){
 					throw new IllegalArgumentException("Meeting must not be in the future");
 				}
-				meeting.addNotes(text);
-				return;
+			meeting.addNotes(text);
+			flush();
+			return;
 			}
 		}
 		throw new IllegalArgumentException("Meeting not found");
@@ -215,6 +218,7 @@ public class ContactManagerImpl implements ContactManager, Serializable{
 		else{
 			this.contactSet.add(new ContactImpl(name, notes, uniqueContactIdGenerator));
 			uniqueContactIdGenerator++;
+			flush();
 		}
 
 	}
