@@ -10,7 +10,7 @@ import java.io.*;
 
 public class ContactManagerImpl implements ContactManager, Serializable{
 	private Set<Contact> contactSet = new HashSet<Contact>();
-	private Set<MeetingImpl> meetingSet = new TreeSet<MeetingImpl>(new MeetingComparator());
+	private Set<MeetingImpl> meetingSet = new TreeSet<MeetingImpl>();
 	private int uniqueContactIdGenerator = 1;
 	private int uniqueMeetingIdGenerator = 1;
 	private String fileName = "contacts.txt";
@@ -251,21 +251,6 @@ public class ContactManagerImpl implements ContactManager, Serializable{
 				PastMeetingImpl pastMeetingConverted = new PastMeetingImpl(meeting.getContacts(), meeting.getDate(), meeting.getId());
 				meetingSet.remove(meeting);
 				meetingSet.add(pastMeetingConverted);
-			}
-		}
-	}
-
-	private class MeetingComparator implements Comparator<Meeting>, Serializable {
-		@Override
-		public int compare(Meeting meeting1, Meeting meeting2){
-			if (meeting1.getDate().before(meeting2.getDate())){
-				return -1;
-			}
-			else if (meeting1.getDate().after(meeting2.getDate())){
-				return 1;
-			}
-			else{
-				return 0;
 			}
 		}
 	}
