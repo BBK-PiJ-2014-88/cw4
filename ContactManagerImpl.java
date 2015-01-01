@@ -82,6 +82,12 @@ public class ContactManagerImpl implements ContactManager, Serializable{
 		return null;
 	}
 
+	/*
+	*
+	* A method for determining whether a meeting has taken place in the past
+	* @param the meeting to test
+	* @return boolean value. True if the meeting took place in the past. False otherwise.
+	*/
 	public boolean isMeetingInPast(Meeting meeting){
 		Calendar currentTime = Calendar.getInstance();
 		if (meeting.getDate().before(currentTime)){
