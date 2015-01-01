@@ -595,5 +595,26 @@ public class ContactManagerTest{
 		assertEquals(expected, output);
 	}
 
-	//add similar test for get futuremeetinglist, adding multiple meetings. to make sure treeset is correct.
+	@Test //flush contacts/meetings to file. Open a new contactManager and make sure the date has been read and is stored chronologically
+	public void inputOutputFutureMeetingListChronological(){
+		Calendar sameDayDifferentTime1 = new GregorianCalendar(2017, 11, 11, 12, 10);
+		Calendar sameDayDifferentTime2 = new GregorianCalendar(2017, 11, 11, 15, 10);
+		Calendar sameDayDifferentTime3 = new GregorianCalendar(2017, 11, 11, 15, 30);
+		Calendar sameDayDifferentTime4 = new GregorianCalendar(2017, 11, 11, 18, 10);
+		contactManagerTester3.addFutureMeeting(contactSet, sameDayDifferentTime3); //added in random order
+		contactManagerTester3.addFutureMeeting(contactSet, sameDayDifferentTime1); // returned list should be in order
+		contactManagerTester3.addFutureMeeting(contactSet, sameDayDifferentTime4);
+		contactManagerTester3.addFutureMeeting(contactSet, sameDayDifferentTime2);
+		contactManagerTester3.addNewPastMeeting(contactSet, pastDate, "notes"); // past date, this meeting should not be in output
+		List<Meeting> ChronologicallySortedMeetingList = new ArrayList<Meeting>();
+		ChronologicallySortedMeetingList.add(new FutureMeetingImpl(contactSet, sameDayDifferentTime1, 2));
+		ChronologicallySortedMeetingList.add(new FutureMeetingImpl(contactSet, sameDayDifferentTime2, 4));
+		ChronologicallySortedMeetingList.add(new FutureMeetingImpl(contactSet, sameDayDifferentTime3, 1));
+		ChronologicallySortedMeetingList.add(new FutureMeetingImpl(contactSet, sameDayDifferentTime4, 3));
+		contactManagerTester3.flush();
+		ContactManager contactManagerTester4 = new ContactManagerImpl();
+		List<Meeting> expected = ChronologicallySortedMeetingList;
+		List<Meeting> output = contactManagerTester4.getFutureMeetingList(new GregorianCalendar(2017,11,11));
+		assertEquals(expected, output);
+	}
 }
