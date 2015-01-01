@@ -41,7 +41,7 @@ public class ContactManagerImpl implements ContactManager, Serializable{
 		if (! doContactsAllExist(contacts)){
 			throw new IllegalArgumentException("ContactSet contains unknown contact");
 		}
-		if (new GregorianCalendar().getInstance().after(date)){
+		if (new GregorianCalendar().getInstance().after(date)){     //checks if date is in the past
 			throw new IllegalArgumentException("Date must be in future");
 		}
 		else{
@@ -52,7 +52,13 @@ public class ContactManagerImpl implements ContactManager, Serializable{
 		}
 	}
 
-	public boolean doContactsAllExist(Set<Contact> contacts){  //checks if contacts are unknown/non-existent
+	/**
+	* Checks that all the contacts in the Contact Set are known
+	*
+	* @param a set of contacts to check
+	* @return a boolean. True if all the contacts exist. False if they don't
+	*/
+	public boolean doContactsAllExist(Set<Contact> contacts){
 		for (Contact cont: contacts){
 			if (!contactSet.contains(cont)){
 				return false;
@@ -222,14 +228,24 @@ public class ContactManagerImpl implements ContactManager, Serializable{
 		}
 		Set<Contact> contactsWithStringInName = new HashSet<Contact>();
 		for (Contact contact : this.contactSet){
-			if (contact.getName().indexOf(name) != -1){    //this means 'name' is in the name of the contact
-				contactsWithStringInName.add(contact);
+			if (contact.getName().indexOf(name) != -1){    //this means 'name' is in the name of the contact.
+				contactsWithStringInName.add(contact);    //indexOf method returns -1 when a String does not contain the String in the paramater
 			}
 		}
 		return contactsWithStringInName;
 	}
 	public void flush(){
 		File dataFile = new File("contacts.txt");
+		if (dataFile.exists()){
+			try{
+				dataFile.delete();
+				System.out.println("File deleted");
+			}
+			catch (Exception e){
+				System.out.println("File cannot be deleted");
+				e.printStackTrace();
+			}
+		}
 		try{
 			ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(dataFile));
 			out.writeObject(contactSet);

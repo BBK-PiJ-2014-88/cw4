@@ -128,7 +128,7 @@ public class ContactManagerTest{
 		assertEquals(expected,output);
 	}
 	@Test (expected = IllegalArgumentException.class)
-	public void testGetContactsWithIDIllegalArgumentException(){ //the entered ID does not correspond to any contact
+	public void testGetContactsWithIdNotCorrespondingToAnyContact(){
 		contactManagerTester1.addNewContact("John", "John notes");
 		contactManagerTester1.addNewContact("Steven", "Steven notes");
 		contactManagerTester1.addNewContact("Stewart", "Stewart notes");  //id = 3
@@ -141,7 +141,7 @@ public class ContactManagerTest{
 	}
 
 	@Test (expected = IllegalArgumentException.class)
-	public void testGetContactWithIDnoParameters(){
+	public void testGetContactWithIDNotCorrespondingToAnyContact2(){
 		contactManagerTester1.addNewContact("John", "John notes");
 		contactManagerTester1.addNewContact("Steven", "Steven notes");
 		contactManagerTester1.addNewContact("Stewart", "Stewart notes");
