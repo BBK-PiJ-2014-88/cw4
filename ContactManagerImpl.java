@@ -67,10 +67,6 @@ public class ContactManagerImpl implements ContactManager, Serializable{
 		return true;
 	}
 
-	public boolean containsContact(Contact con){
-		return this.contactSet.contains(con);
-	}
-
 	public PastMeeting getPastMeeting(int id){
 		updateMeetingList();  //any meetings which were added as future meetings but have now taken place are converted into past meetings
 		for (Meeting meeting: meetingSet){
@@ -162,6 +158,7 @@ public class ContactManagerImpl implements ContactManager, Serializable{
 	}
 
 	public List<PastMeeting> getPastMeetingList(Contact contact){
+		updateMeetingList(); //Makes sure meetings in meetingSet have the correct class.
 		List<PastMeeting> pastMeetingsWithContact = new ArrayList<PastMeeting>();
 		if (!contactSet.contains(contact)){
 			throw new IllegalArgumentException("Contact does not exist");

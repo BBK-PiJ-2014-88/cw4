@@ -472,7 +472,7 @@ public class ContactManagerTest{
 		contactManagerTester3.addFutureMeeting(contactSet, futureDate);
 		List<PastMeeting> EmptyMeetingList = new ArrayList<PastMeeting>();
 		List<PastMeeting> expected = EmptyMeetingList;
-		List<PastMeeting> output = contactManagerTester3.getPastMeetingList(new ContactImpl("Smith", "Smith notes",2));
+		List<PastMeeting> output = contactManagerTester3.getPastMeetingList(new ContactImpl("Smith", "Smith notes",2)); //smith in contactSet
 		assertEquals(expected, output);
 	}
 
