@@ -16,7 +16,6 @@ public class ContactManagerImpl implements ContactManager, Serializable{
 
 	public ContactManagerImpl(){
 		File dataFile = new File("contacts.txt");
-		Set<MeetingImpl> meetingSetTemp = new HashSet<MeetingImpl>();
 		if (dataFile.exists()){
 			try{
 				ObjectInputStream in = new ObjectInputStream(new FileInputStream(dataFile));
@@ -33,7 +32,6 @@ public class ContactManagerImpl implements ContactManager, Serializable{
 			catch (ClassNotFoundException e){
 				e.printStackTrace();
 			}
-			meetingSet.addAll(meetingSetTemp);
 		}
 	}
 
