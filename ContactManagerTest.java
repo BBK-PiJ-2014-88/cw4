@@ -17,13 +17,13 @@ public class ContactManagerTest{
 	private Set<Contact> contacts; //empty contactSet
 	private Set<Contact> contactSet; //contactSet with 3 Contact's added
 	private Set<Meeting> meetings;
-	Calendar futureDate = new GregorianCalendar(2015,5,12);  //dates that i will use in tests
-	Calendar futureDate2 = new GregorianCalendar(2015,10,9);
-	Calendar futureDate3 = new GregorianCalendar(2018,1,12);
-	Calendar pastDate = new GregorianCalendar(2011,12,12);
-	Calendar pastDate2 = new GregorianCalendar(2010,8,12);
-	Calendar pastDate3 = new GregorianCalendar(2008,12,30);
-	Calendar randomDate = new GregorianCalendar(2014,12,10);
+	private Calendar futureDate = new GregorianCalendar(2015,5,12);  //dates that i will use in tests
+	private Calendar futureDate2 = new GregorianCalendar(2015,10,9);
+	private Calendar futureDate3 = new GregorianCalendar(2018,1,12);
+	private Calendar pastDate = new GregorianCalendar(2011,12,12);
+	private Calendar pastDate2 = new GregorianCalendar(2010,8,12);
+	private Calendar pastDate3 = new GregorianCalendar(2008,12,30);
+	private Calendar randomDate = new GregorianCalendar(2014,12,10);
 
 	@Before
 	public void buildUp(){
@@ -585,4 +585,6 @@ public class ContactManagerTest{
 		FutureMeeting output = contactManagerTester4.getFutureMeeting(1);
 		assertEquals(expected, output);
 	}
+
+	//add similar test for get futuremeetinglist, adding multiple meetings. to make sure treeset is correct.
 }
