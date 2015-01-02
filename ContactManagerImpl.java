@@ -193,12 +193,12 @@ public class ContactManagerImpl implements ContactManager, Serializable{
 		}
 		for (MeetingImpl meeting : meetingSet){
 			if (meeting.getId() == id){
-				if (new GregorianCalendar().getInstance().before(meeting.getDate())){
+				if (!isMeetingInPast(meeting)){
 					throw new IllegalArgumentException("Meeting must not be in the future");
 				}
-			meeting.addNotes(text);
-			flush();
-			return;
+				meeting.addNotes(text);
+				flush();
+				return;
 			}
 		}
 		throw new IllegalArgumentException("Meeting not found");
@@ -217,7 +217,7 @@ public class ContactManagerImpl implements ContactManager, Serializable{
 	public Set<Contact> getContacts(int... ids){
 		Set<Contact> contactsWithInputtedIds = new HashSet<Contact>();
 		for (int idNum: ids){
-			boolean contactFound = false;
+			boolean contactFound = false;  //for every Id, make sure there is a contact with the Id
 			for (Contact contact : contactSet){
 				if (contact.getId() == idNum){
 					contactsWithInputtedIds.add(contact);
