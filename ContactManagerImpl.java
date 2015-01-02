@@ -86,12 +86,7 @@ public class ContactManagerImpl implements ContactManager, Serializable{
 	*/
 	public boolean isMeetingInPast(Meeting meeting){
 		Calendar currentTime = Calendar.getInstance();
-		if (meeting.getDate().before(currentTime)){
-			return true;
-		}
-		else{
-			return false;
-		}
+		return meeting.getDate().before(currentTime);
 	}
 
 	public FutureMeeting getFutureMeeting(int id){
