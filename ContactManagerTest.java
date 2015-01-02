@@ -46,7 +46,6 @@ public class ContactManagerTest{
 		if (file.exists()){
 			try{
 				file.delete();
-				System.out.println("File deleted");
 			}
 			catch (Exception e){
 				System.out.println("File cannot be deleted");

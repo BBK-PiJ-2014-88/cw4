@@ -20,11 +20,8 @@ public class ContactManagerImpl implements ContactManager, Serializable{
 			try{
 				ObjectInputStream in = new ObjectInputStream(new FileInputStream(dataFile));
 				contactSet = (HashSet) in.readObject();
-				System.out.println("Done contact read");
 				meetingSet = (TreeSet) in.readObject();
-				System.out.println("Done meeting read");
 				in.close();
-				System.out.println("closed");
 			}
 			catch (IOException e){
 				e.printStackTrace();
@@ -257,7 +254,6 @@ public class ContactManagerImpl implements ContactManager, Serializable{
 		if (dataFile.exists()){
 			try{
 				dataFile.delete(); //delete the file so new file can be written from scratch.
-				System.out.println("File deleted");
 			}
 			catch (Exception e){
 				System.out.println("File cannot be deleted");
@@ -267,11 +263,8 @@ public class ContactManagerImpl implements ContactManager, Serializable{
 		try{
 			ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(dataFile));
 			out.writeObject(contactSet);
-			System.out.println("Done contact write");
 			out.writeObject(meetingSet);
-			System.out.println("Done meeting write");
 			out.close();
-			System.out.println("out closed successfully");
 		}
 		catch (IOException e){
 			e.printStackTrace();
