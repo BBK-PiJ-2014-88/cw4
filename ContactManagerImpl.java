@@ -7,7 +7,9 @@ import java.util.Comparator;
 import java.util.GregorianCalendar;
 import java.util.ArrayList;
 import java.io.*;
-
+/**
+ * A class to manage your contacts and meetings.
+ */
 public class ContactManagerImpl implements ContactManager, Serializable{
 	private Set<Contact> contactSet = new HashSet<Contact>();
 	private Set<MeetingImpl> meetingSet = new TreeSet<MeetingImpl>();

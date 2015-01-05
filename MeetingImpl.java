@@ -3,7 +3,11 @@ import java.util.Set;
 import java.util.GregorianCalendar;
 import java.util.HashSet;
 import java.io.Serializable;
-
+/**
+* A class to represent meetings
+*
+* Meetings have unique IDs, scheduled date and a list of participating contacts
+*/
 public class MeetingImpl implements Meeting, Serializable, Comparable{
 	private Set<Contact> contactSet = new HashSet<Contact>();
 	private Calendar meetingDate = new GregorianCalendar();
@@ -15,19 +19,48 @@ public class MeetingImpl implements Meeting, Serializable, Comparable{
 		this.meetingDate = date;
 		this.contactSet = contacts;
 	}
+	/**
+	 * Returns the id of the meeting.
+	 *
+	 * @return the id of the meeting.
+	 */
 	public int getId(){
 		return meetingId;
 	}
+	 /**
+	 * Return the date of the meeting.
+	 *
+	 * @return the date of the meeting.
+	 */
 	public Calendar getDate(){
 		return meetingDate;
 	}
+	 /**
+	 * Return the details of people that attended the meeting.
+	 *
+	 * The list contains a minimum of one contact (if there were
+	 * just two people: the user and the contact) and may contain an
+	 * arbitraty number of them.
+	 *
+	 * @return the details of people that attended the meeting.
+	 */
 	public Set<Contact> getContacts(){
 		return contactSet;
 	}
 
+	 /**
+	 * Adds notes to a meeting
+	 *
+	 * @param the notes to add
+	 */
 	public void addNotes(String notes){
 		this.notes = this.notes + notes + "\n";
 	}
+	 /**
+	 * Gets the notes of a meeting
+	 *
+	 * @return the meeting notes
+	 */
 	public String getNotes(){
 		return notes;
 	}
