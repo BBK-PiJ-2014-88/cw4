@@ -63,7 +63,7 @@ public class ContactManagerImpl implements ContactManager, Serializable{
 	* @param a set of contacts to check
 	* @return a boolean. True if all the contacts exist. False if they don't
 	*/
-	public boolean doContactsAllExist(Set<Contact> contacts){
+	private boolean doContactsAllExist(Set<Contact> contacts){
 		for (Contact cont: contacts){
 			if (!contactSet.contains(cont)){
 				return false;
@@ -100,7 +100,7 @@ public class ContactManagerImpl implements ContactManager, Serializable{
 	* @param the meeting to test
 	* @return boolean value. True if the meeting took place in the past. False otherwise.
 	*/
-	public boolean isMeetingInPast(Meeting meeting){
+	private boolean isMeetingInPast(Meeting meeting){
 		Calendar currentTime = Calendar.getInstance();
 		return meeting.getDate().before(currentTime);
 	}
@@ -198,7 +198,7 @@ public class ContactManagerImpl implements ContactManager, Serializable{
 	* @ return a boolean value. True if the two calendars occur on the same date. False otherwise.
 	*
 	*/
-	public boolean isSameDate(Calendar date1, Calendar date2){
+	private boolean isSameDate(Calendar date1, Calendar date2){
 		if (date1.get(Calendar.YEAR) == date2.get(Calendar.YEAR) && date1.get(Calendar.MONTH) == date2.get(Calendar.MONTH)
 		&& date1.get(Calendar.DAY_OF_MONTH) == date2.get(Calendar.DAY_OF_MONTH)){
 			return true;
@@ -391,7 +391,7 @@ public class ContactManagerImpl implements ContactManager, Serializable{
 	* it is converted to a PastMeeting. If a meeting has a future date but is stored as PastMeeting, it is converted to a FutureMeeting.
 	*
 	*/
-	public void updateMeetingList(){
+	private void updateMeetingList(){
 		for (Meeting meeting: meetingSet){
 			if ((isMeetingInPast(meeting)) && (meeting.getClass() == FutureMeetingImpl.class)){
 				PastMeetingImpl pastMeetingConverted = new PastMeetingImpl(meeting.getContacts(), meeting.getDate(), meeting.getId());
