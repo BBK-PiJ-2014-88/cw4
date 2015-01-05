@@ -288,6 +288,7 @@ public class ContactManagerImpl implements ContactManager, Serializable{
 					throw new IllegalArgumentException("Meeting must not be in the future");
 				}
 				meeting.addNotes(text);
+				updateMeetingList(); //converts future meetings to past meetings if they are now in the past
 				flush();
 				return;
 			}
@@ -401,6 +402,7 @@ public class ContactManagerImpl implements ContactManager, Serializable{
 				meetingSet.remove(meeting);
 				meetingSet.add(pastMeetingConverted);
 			}
+//the else clause below is necessary because the addNewPastMeeting allows a past meeting to be added with a future date based on the interface
 			else if ((!isMeetingInPast(meeting)) && (meeting.getClass() == PastMeetingImpl.class)){
 				FutureMeetingImpl futureMeetingConverted = new FutureMeetingImpl(meeting.getContacts(), meeting.getDate(), meeting.getId());
 				meetingSet.remove(meeting);
