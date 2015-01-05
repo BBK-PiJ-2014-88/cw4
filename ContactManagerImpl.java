@@ -394,9 +394,10 @@ public class ContactManagerImpl implements ContactManager, Serializable{
 	*
 	*/
 	private void updateMeetingList(){
-		for (Meeting meeting: meetingSet){
+		for (MeetingImpl meeting: meetingSet){
 			if ((isMeetingInPast(meeting)) && (meeting.getClass() == FutureMeetingImpl.class)){
 				PastMeetingImpl pastMeetingConverted = new PastMeetingImpl(meeting.getContacts(), meeting.getDate(), meeting.getId());
+				pastMeetingConverted.addNotes(meeting.getNotes());
 				meetingSet.remove(meeting);
 				meetingSet.add(pastMeetingConverted);
 			}
