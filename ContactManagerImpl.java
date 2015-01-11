@@ -12,7 +12,7 @@ import java.io.*;
  */
 public class ContactManagerImpl implements ContactManager, Serializable{
 	private Set<Contact> contactSet = new HashSet<Contact>();
-	private Set<MeetingImpl> meetingSet = new TreeSet<MeetingImpl>();
+	private Set<MeetingImpl> meetingSet = new TreeSet<MeetingImpl>();  //Treeset is used to keep Meetings in chronological order by date/time
 	private int uniqueContactIdGenerator = 1;
 	private int uniqueMeetingIdGenerator = 1;
 
@@ -376,6 +376,8 @@ public class ContactManagerImpl implements ContactManager, Serializable{
 	 * This method must be executed when the program is
 	 * closed and when/if the user requests it.
 	 */
+	 //This method is automatically called whenever new information is added to contactSet or MeetingSet
+	 //This has the same effect as calling this method when the program is closed as the data in the contacts file is always up-to-date
 	public void flush(){
 		updateMeetingList(); //Makes sure meetings in meetingSet have the correct class.
 		File dataFile = new File("contacts.txt");
