@@ -18,9 +18,10 @@ public class ContactManagerImpl implements ContactManager, Serializable{
 
 	public ContactManagerImpl(){
 		File dataFile = new File("contacts.txt");
+		ObjectInputStream in = null;
 		if (dataFile.exists()){
 			try{
-				ObjectInputStream in = new ObjectInputStream(new FileInputStream(dataFile));
+				in = new ObjectInputStream(new FileInputStream(dataFile));
 				contactSet = (HashSet) in.readObject();
 				meetingSet = (TreeSet) in.readObject();
 				in.close();
@@ -30,6 +31,16 @@ public class ContactManagerImpl implements ContactManager, Serializable{
 			}
 			catch (ClassNotFoundException e){
 				e.printStackTrace();
+			}
+			finally{
+				try{
+					if (in != null){
+						in.close();
+					}
+				}
+				catch(IOException e){
+					e.printStackTrace();
+				}
 			}
 		}
 	}
@@ -377,14 +388,25 @@ public class ContactManagerImpl implements ContactManager, Serializable{
 				e.printStackTrace();
 			}
 		}
+		ObjectOutputStream out = null;
 		try{
-			ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(dataFile));
+			out = new ObjectOutputStream(new FileOutputStream(dataFile));
 			out.writeObject(contactSet);
 			out.writeObject(meetingSet);
 			out.close();
 		}
 		catch (IOException e){
 			e.printStackTrace();
+		}
+		finally{
+			try{
+				if (out != null){
+					out.close();
+				}
+			}
+			catch(IOException e){
+				e.printStackTrace();
+			}
 		}
 	}
 
