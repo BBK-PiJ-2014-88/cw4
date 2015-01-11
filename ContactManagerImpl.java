@@ -24,7 +24,6 @@ public class ContactManagerImpl implements ContactManager, Serializable{
 				in = new ObjectInputStream(new FileInputStream(dataFile));
 				contactSet = (HashSet) in.readObject();
 				meetingSet = (TreeSet) in.readObject();
-				in.close();
 			}
 			catch (IOException e){
 				e.printStackTrace();
@@ -395,7 +394,6 @@ public class ContactManagerImpl implements ContactManager, Serializable{
 			out = new ObjectOutputStream(new FileOutputStream(dataFile));
 			out.writeObject(contactSet);
 			out.writeObject(meetingSet);
-			out.close();
 		}
 		catch (IOException e){
 			e.printStackTrace();
