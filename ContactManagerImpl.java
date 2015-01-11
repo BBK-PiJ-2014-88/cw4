@@ -424,7 +424,7 @@ public class ContactManagerImpl implements ContactManager, Serializable{
 				meetingSet.remove(meeting);
 				meetingSet.add(pastMeetingConverted);
 			}
-//the else clause below is necessary because the addNewPastMeeting allows a past meeting to be added with a future date based on the interface
+//the else clause below is necessary because according to the interface, the addNewPastMeeting allows a past meeting to be added with a future date
 			else if ((!isMeetingInPast(meeting)) && (meeting.getClass() == PastMeetingImpl.class)){
 				FutureMeetingImpl futureMeetingConverted = new FutureMeetingImpl(meeting.getContacts(), meeting.getDate(), meeting.getId());
 				meetingSet.remove(meeting);
